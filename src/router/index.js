@@ -1,27 +1,46 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-  const routes = [
+const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    redirect: "/login"
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: "/login",
+    component: () => import("../components/Login")
+  },
+  {
+    path: "/home",
+    component: () => import("../components/Home"),
+    children: [
+      {
+        path: "/welcome",
+        component: () => import("../components/Welcome")
+      }
+    ]
   }
-]
+];
 
 const router = new VueRouter({
   routes
-})
+});
 
-export default router
+//挂载路由导航守卫
+//为路由对象添加beforeEach 导航守卫
+//to：将要访问的路径
+//from：代表从哪个路径跳转而来
+//next是一个函数，表示放行，next() 放行， next('/login') 强制跳转
+router.beforeEach((to, from, next) => {
+  //如果用户访问的登录页，直接放行
+  if (to.path === "/login") return next();
+  //从sessionStorage中获取到保存的token值
+  const tokenStr = window.sessionStorage.getItem("token");
+  //没有token，强制跳转到登录页
+  if (!tokenStr) return next("/login");
+  next();
+});
+
+export default router;
