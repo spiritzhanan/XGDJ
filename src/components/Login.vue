@@ -4,38 +4,43 @@
       <!-- 头部-->
       <el-header style="height: 100px;margin-top: 3%">
         <img src="../assets/imgs/gnyxy.png" />
-        <!--        <el-image id="gnyxyImg" :src="gnyxySrc" fit="contain"></el-image>-->
       </el-header>
       <!-- 中间部分-->
       <el-main>
-        <el-form>
-          <el-form-item>
+        <el-form
+          ref="loginFormRef"
+          class="login_form"
+          :model="loginForm"
+          :rules="loginFormRules"
+        >
+          <el-form-item prop="username">
             <el-input
               placeholder="请输入用户名"
               prefix-icon="el-icon-user"
-              v-model="username"
+              v-model="loginForm.username"
               clearable
             ></el-input>
           </el-form-item>
 
-          <el-form-item>
+          <el-form-item prop="password">
             <el-input
               placeholder="请输入密码"
-              v-model="password"
+              v-model="loginForm.password"
               prefix-icon="el-icon-lock"
               show-password
             ></el-input>
           </el-form-item>
 
-          <el-form-item>
+          <el-form-item prop="identify">
             <el-input
               id="identify"
               placeholder="请选输入验证码"
-              v-model="identify"
+              v-model="loginForm.identify"
               prefix-icon="el-icon-chat-dot-square"
-              clearable
             ></el-input>
-            <el-image id="identifyImg" :src="src"></el-image>
+            <div class="code" @click="refreshCode">
+              <Identify :identifyCode="identifyCode"></Identify>
+            </div>
           </el-form-item>
 
           <el-row>
@@ -51,7 +56,7 @@
                 type="primary"
                 icon="el-icon-refresh-right"
                 size="medium"
-                @click="clear"
+                @click="resetLoginForm"
                 >重置
               </el-button>
             </el-col>
@@ -68,31 +73,99 @@
 </template>
 
 <script>
+import Identify from "../components/Identity";
 export default {
   data() {
     return {
-      src:
-        "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-      username: "",
-      password: "",
-      identify: ""
+      loginForm: {
+        username: "admin",
+        password: "123456",
+        identify: ""
+      },
+      identifyCodes: "1234567890",
+      identifyCode: "",
+      //表单验证规则对象
+      loginFormRules: {
+        //验证用户名是否合法
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
+          {
+            min: 3,
+            max: 10,
+            message: "长度在 3 到 10 个字符之间",
+            trigger: "blur"
+          }
+        ],
+        //验证密码是否合法
+        password: [
+          { required: true, message: "请输入登录密码", trigger: "blur" },
+          {
+            min: 6,
+            max: 15,
+            message: "长度在 6 到 15 个字符之间",
+            trigger: "blur"
+          }
+        ],
+        //验证验证码是否合法
+        identify: [
+          { required: true, message: "请输入验证码", trigger: "blur" },
+          {
+            min: 4,
+            max: 4,
+            message: "长度为 4 个字符",
+            trigger: "blur"
+          }
+        ]
+      }
     };
   },
+
+  components: {
+    Identify
+  },
+  mounted() {
+    this.identifyCode = "";
+    this.makeCode(this.identifyCodes, 4);
+  },
   methods: {
-    login() {
-      this.$router.push("/home");
+    //重置表单
+    resetLoginForm() {
+      this.$refs.loginFormRef.resetFields();
     },
-    clear() {
-      this.username = "";
-      this.password = "";
-      this.identify = "";
+    //登录预验证
+    login() {
+      this.$refs.loginFormRef.validate(async valid => {
+        console.log(valid);
+        if (!valid) return;
+        // const { data: res } = await this.$http.post("login", this.loginForm);
+        // // console.log(res);
+        // if (res.meta.status !== 200) return this.$message.error("登录失败");
+        // this.$message.success("登录成功");
+        // window.sessionStorage.setItem("token", res.data.token);
+        this.$router.push("/home");
+      });
+    },
+    randomNum(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    },
+    refreshCode() {
+      this.identifyCode = "";
+      this.makeCode(this.identifyCodes, 4);
+    },
+    makeCode(o, l) {
+      for (let i = 0; i < l; i++) {
+        this.identifyCode += this.identifyCodes[
+          this.randomNum(0, this.identifyCodes.length)
+        ];
+      }
+      console.log(this.identifyCode);
     }
   }
 };
 </script>
 
-<style>
-.el-form {
+<style lang="less" scoped>
+.login_form {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   width: 300px;
   left: 50%;

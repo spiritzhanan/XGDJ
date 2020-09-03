@@ -14,6 +14,7 @@ const routes = [
   },
   {
     path: "/home",
+    redirect: "/welcome",
     component: () => import("../components/Home"),
     children: [
       {
