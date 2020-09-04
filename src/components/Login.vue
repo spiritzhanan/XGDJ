@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <!-- 头部-->
-      <el-header style="height: 100px;margin-top: 3%">
+      <el-header>
         <img src="../assets/imgs/gnyxy.png" />
       </el-header>
       <!-- 中间部分-->
@@ -32,15 +32,20 @@
           </el-form-item>
 
           <el-form-item prop="identify">
-            <el-input
-              id="identify"
-              placeholder="请选输入验证码"
-              v-model="loginForm.identify"
-              prefix-icon="el-icon-chat-dot-square"
-            ></el-input>
-            <div class="code" @click="refreshCode">
-              <Identify :identifyCode="identifyCode"></Identify>
-            </div>
+            <el-row :gutter="18">
+              <el-col :span="15">
+                <el-input
+                  placeholder="请选输入验证码"
+                  v-model="loginForm.identify"
+                  prefix-icon="el-icon-chat-dot-square"
+                ></el-input>
+              </el-col>
+              <el-col :span="9">
+                <div @click="refreshCode">
+                  <Identify :identifyCode="identifyCode"></Identify>
+                </div>
+              </el-col>
+            </el-row>
           </el-form-item>
 
           <el-row>
@@ -92,7 +97,7 @@ export default {
           {
             min: 3,
             max: 10,
-            message: "长度在 3 到 10 个字符之间",
+            message: "用户名在 3 到 10 个字符之间",
             trigger: "blur"
           }
         ],
@@ -102,20 +107,12 @@ export default {
           {
             min: 6,
             max: 15,
-            message: "长度在 6 到 15 个字符之间",
+            message: "密码在 6 到 15 个字符之间",
             trigger: "blur"
           }
         ],
         //验证验证码是否合法
-        identify: [
-          { required: true, message: "请输入验证码", trigger: "blur" },
-          {
-            min: 4,
-            max: 4,
-            message: "长度为 4 个字符",
-            trigger: "blur"
-          }
-        ]
+        identify: [{ required: true, message: "请输入验证码", trigger: "blur" }]
       }
     };
   },
@@ -132,19 +129,31 @@ export default {
     resetLoginForm() {
       this.$refs.loginFormRef.resetFields();
     },
+
     //登录预验证
     login() {
-      this.$refs.loginFormRef.validate(async valid => {
-        console.log(valid);
-        if (!valid) return;
-        // const { data: res } = await this.$http.post("login", this.loginForm);
-        // // console.log(res);
-        // if (res.meta.status !== 200) return this.$message.error("登录失败");
-        // this.$message.success("登录成功");
-        // window.sessionStorage.setItem("token", res.data.token);
-        this.$router.push("/home");
-      });
+      if (
+        this.loginForm.identify.toLowerCase() !==
+        this.identifyCode.toLowerCase()
+      ) {
+        this.$message.error("请填写正确验证码");
+        this.refreshCode();
+        return;
+      }
+      // this.$refs.loginFormRef.validate(async valid => {
+      //   console.log(valid);
+      //   if (!valid) return;
+      //   const { data: res } = await this.$http.post("login", this.loginForm);
+      //   console.log(res);
+      //   if (res.meta.status !== 200) return this.$message.error("登录失败");
+      //   this.$message.success("登录成功");
+      //   window.sessionStorage.setItem("token", res.data.token);
+      //   this.$router.push("/home");
+      // });
+      this.$router.push("/home");
     },
+
+    //验证码
     randomNum(min, max) {
       return Math.floor(Math.random() * (max - min) + min);
     },
@@ -165,43 +174,32 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.el-header {
+  margin-top: 3%;
+}
 .login_form {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   width: 300px;
-  left: 50%;
+  margin-top: 5%;
   margin-left: 35%;
   padding: 40px;
 }
-
-#identify {
-  width: 200px;
+.el-input {
+  height: 43.3px;
 }
-
-.el-image {
-  display: inline;
-}
-
 .el-button {
-  margin-left: 50px;
+  width: 140px;
+  margin-left: 5px;
 }
 
 .el-button + .el-button {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 #gnyxyImg {
   width: 200px;
   height: 100px;
 }
-
-#identifyImg {
-  width: 90px;
-  height: 39px;
-  position: absolute;
-  top: -13.5px;
-  right: 0;
-}
-
 .el-footer {
   margin: auto;
 }
