@@ -44,23 +44,8 @@ export default {
         pagesize: 2
       },
       userList: [],
-      total: 0,
-      //空盒子添加用户的显示与隐藏
-      addDialogVisible: false,
-      //添加用户的表单数据
-      addForm: {
-        username: "",
-        password: "",
-        email: "",
-        mobile: ""
-      }
+      total: 0
     };
-  },
-  methods: {
-    //监听添加用户对话框的关闭事件
-    addDialogClosed() {
-      this.$refs.addFormRef.resetFields();
-    }
   }
 };
 </script>

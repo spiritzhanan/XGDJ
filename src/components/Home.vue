@@ -16,8 +16,8 @@
           @open="handleOpen"
           @close="handleClose"
           :unique-opened="true"
-          :collapse="isCollapse"
           :collapse-transition="false"
+          router
         >
           <el-submenu index="1">
             <template slot="title">
@@ -25,21 +25,10 @@
               <span>待办事项</span>
             </template>
             <el-menu-item-group>
-              <router-link to="/created"
-                ><el-menu-item index="1-1">新建</el-menu-item></router-link
-              >
-              <router-link to="/dispatch"
-                ><el-menu-item index="1-2">派给我</el-menu-item></router-link
-              >
-              <router-link to="/created"
-                ><el-menu-item index="1-3">我创建</el-menu-item></router-link
-              >
-              <router-link to="/solved"
-                ><el-menu-item index="1-4">我解决</el-menu-item></router-link
-              >
-              <router-link to="/closed"
-                ><el-menu-item index="1-5">我关闭</el-menu-item></router-link
-              >
+              <el-menu-item index="dispatch">派给我</el-menu-item>
+              <el-menu-item index="created">我创建</el-menu-item>
+              <el-menu-item index="solved">我解决</el-menu-item>
+              <el-menu-item index="closed">我关闭</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
@@ -48,8 +37,8 @@
               <span>学子成长</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="2-1">任务管理</el-menu-item>
-              <el-menu-item index="2-2">学生审核</el-menu-item>
+              <el-menu-item index="tasklists">任务管理</el-menu-item>
+              <el-menu-item index="scheck">学生审核</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="3">
@@ -58,8 +47,8 @@
               <span>志愿任务</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="3-1">志愿任务管理</el-menu-item>
-              <el-menu-item index="3-2">志愿审核</el-menu-item>
+              <el-menu-item index="taskmanager">志愿任务管理</el-menu-item>
+              <el-menu-item index="vcheck">志愿审核</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="4">
@@ -178,5 +167,15 @@ export default {
       margin-left: 15px;
     }
   }
+}
+.el-aside {
+  display: block;
+  overflow-y: scroll;
+  .el-menu {
+    border-right: none;
+  }
+}
+.el-aside::-webkit-scrollbar {
+  width: 0;
 }
 </style>

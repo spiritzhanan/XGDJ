@@ -36,6 +36,22 @@ const routes = [
       {
         path: "/solved",
         component: () => import("../components/backlog/Solved")
+      },
+      {
+        path: "/tasklists",
+        component: () => import("../components/growup/TaskLists")
+      },
+      {
+        path: "/scheck",
+        component: () => import("../components/growup/SCheck")
+      },
+      {
+        path: "/taskmanager",
+        component: () => import("../components/vtasks/TaskManager")
+      },
+      {
+        path: "/vcheck",
+        component: () => import("../components/vtasks/VCheck")
       }
     ]
   }
