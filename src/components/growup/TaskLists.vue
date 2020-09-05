@@ -4,7 +4,7 @@
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>学子成长</el-breadcrumb-item>
-      <el-breadcrumb-item>301任务管理</el-breadcrumb-item>
+      <el-breadcrumb-item>任务管理</el-breadcrumb-item>
     </el-breadcrumb>
 
     <!--查询输入框-->
