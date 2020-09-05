@@ -47,7 +47,7 @@
               <span>志愿任务</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="taskmanager">志愿任务管理</el-menu-item>
+              <el-menu-item index="taskmanage">志愿任务管理</el-menu-item>
               <el-menu-item index="vcheck">志愿审核</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -57,7 +57,7 @@
               <span>成长履历</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="3-1">成长履历</el-menu-item>
+              <el-menu-item index="growth">成长履历</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="5">
@@ -66,11 +66,11 @@
               <span>待办事项</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="5-1">文档管理</el-menu-item>
-              <el-menu-item index="5-2">图片管理</el-menu-item>
-              <el-menu-item index="5-3">广告管理</el-menu-item>
-              <el-menu-item index="5-4">文章管理</el-menu-item>
-              <el-menu-item index="5-5">公众号菜单栏</el-menu-item>
+              <el-menu-item index="file">文档管理</el-menu-item>
+              <el-menu-item index="image">图片管理</el-menu-item>
+              <el-menu-item index="ad">广告管理</el-menu-item>
+              <el-menu-item index="article">文章管理</el-menu-item>
+              <el-menu-item index="menu">公众号菜单栏</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="6">
@@ -79,7 +79,7 @@
               <span>管理报表</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="6-1">访客明细</el-menu-item>
+              <el-menu-item index="visitor">访客明细</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="7">
@@ -88,11 +88,11 @@
               <span>系统管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="7-1">学生管理</el-menu-item>
-              <el-menu-item index="7-2">用户名单</el-menu-item>
-              <el-menu-item index="7-3">管理日志</el-menu-item>
-              <el-menu-item index="7-4">基本代码</el-menu-item>
-              <el-menu-item index="7-5">参数配置</el-menu-item>
+              <el-menu-item index="student">学生管理</el-menu-item>
+              <el-menu-item index="user">用户名单</el-menu-item>
+              <el-menu-item index="log">管理日志</el-menu-item>
+              <el-menu-item index="code">基本代码</el-menu-item>
+              <el-menu-item index="setting">参数配置</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
