@@ -84,7 +84,7 @@ export default {
     return {
       loginForm: {
         username: "admin",
-        password: "123456",
+        password: "0000",
         identify: ""
       },
       identifyCodes: "1234567890",
@@ -105,9 +105,9 @@ export default {
         password: [
           { required: true, message: "请输入登录密码", trigger: "blur" },
           {
-            min: 6,
+            min: 4,
             max: 15,
-            message: "密码在 6 到 15 个字符之间",
+            message: "密码在 4 到 15 个字符之间",
             trigger: "blur"
           }
         ],
@@ -140,17 +140,18 @@ export default {
         this.refreshCode();
         return;
       }
-      // this.$refs.loginFormRef.validate(async valid => {
-      //   console.log(valid);
-      //   if (!valid) return;
-      //   const { data: res } = await this.$http.post("login", this.loginForm);
-      //   console.log(res);
-      //   if (res.meta.status !== 200) return this.$message.error("登录失败");
-      //   this.$message.success("登录成功");
-      //   window.sessionStorage.setItem("token", res.data.token);
-      //   this.$router.push("/home");
-      // });
-      this.$router.push("/home");
+      this.$refs.loginFormRef.validate(async valid => {
+        if (!valid) return;
+        const { data: res } = await this.$http.post("login", {
+          number: this.loginForm.username,
+          password: this.loginForm.password
+        });
+        console.log(res);
+        if (res.code !== "200") return this.$message.error("登录失败");
+        this.$message.success("登录成功");
+        window.sessionStorage.setItem("token", res.data.token);
+        this.$router.push("/home");
+      });
     },
 
     //验证码
