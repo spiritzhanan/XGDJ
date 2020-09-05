@@ -6,7 +6,7 @@ import "./assets/css/global.css";
 import axios from "axios";
 
 Vue.config.productionTip = false;
-axios.defaults.baseURL = "http://39.99.142.199:8080/";
+axios.defaults.baseURL = "http://39.99.142.199:8083";
 axios.interceptors.request.use(config => {
   config.headers.Authorization = window.sessionStorage.getItem("token");
   //必须Return
