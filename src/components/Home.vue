@@ -115,7 +115,7 @@
               <span>管理报表</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="visitor">访客明细</el-menu-item>
+              <el-menu-item index="visitors">访客明细</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="7">

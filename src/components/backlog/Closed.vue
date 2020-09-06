@@ -66,7 +66,7 @@ export default {
   methods: {
     //获取派给我
     async getCloseLists() {
-      const { data: res } = await this.$http.get("Task/myClose", {
+      const { data: res } = await this.$http.get("/Task/myClose", {
         params: { id: this.id }
       });
       console.log(res);

@@ -114,7 +114,7 @@ export default {
   created() {
     this.id = window.sessionStorage.getItem("adminid");
     this.token = window.sessionStorage.getItem("token");
-    this.queryTask();
+    this.getCreateLists();
   },
   methods: {
     //获取我创建的任务
