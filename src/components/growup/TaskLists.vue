@@ -53,10 +53,10 @@
 
     <el-button type="danger">删除</el-button>
     <!--用户列表区域-->
-    <el-table :data="userList" border stripe>
+    <el-table :data="taskLists" border stripe>
       <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column label="任务编号"></el-table-column>
-      <el-table-column label="任务类型" prop=""></el-table-column>
+      <el-table-column label="任务编号" prop="number"></el-table-column>
+      <el-table-column label="任务类型" prop="tasktype"></el-table-column>
       <el-table-column label="任务名" prop=""></el-table-column>
       <el-table-column label="任务对象" prop=""></el-table-column>
       <el-table-column label="所属学院" prop=""></el-table-column>
@@ -99,7 +99,7 @@ export default {
         //每页展示数
         pagesize: 2
       },
-      userList: [],
+      taskLists: [],
       total: 0,
       input1: "",
       input4: "",
@@ -125,8 +125,25 @@ export default {
           label: "北京烤鸭"
         }
       ],
-      value: ""
+      value: "",
+      token: ""
     };
+  },
+  created() {
+    this.token = window.sessionStorage.getItem("token");
+    this.getTaskLists();
+  },
+  methods: {
+    async getTaskLists() {
+      const { data: res } = await this.$http.get("/Task/findAllTask", {
+        headers: { token: this.token }
+      });
+      console.log(res);
+      // if (res.code !== "200") {
+      //   return this.$message.error("获取列表失败");
+      // }
+      this.dispatchLists = res.list;
+    }
   }
 };
 </script>

@@ -96,29 +96,29 @@ const routes = [
 
       /*管理报表路由*/
       {
-        path: "visitor",
-        component: () => import("../components/mbvr/Visitor")
+        path: "/visitors",
+        component: () => import("../components/mbvr/Visitors")
       },
 
       /*系统管理路由*/
       {
-        path: "code",
+        path: "/code",
         component: () => import("../components/msetting/Code")
       },
       {
-        path: "log",
+        path: "/log",
         component: () => import("../components/msetting/Log")
       },
       {
-        path: "setting",
+        path: "/setting",
         component: () => import("../components/msetting/Setting")
       },
       {
-        path: "student",
+        path: "/student",
         component: () => import("../components/msetting/Student")
       },
       {
-        path: "user",
+        path: "/user",
         component: () => import("../components/msetting/User")
       }
     ]

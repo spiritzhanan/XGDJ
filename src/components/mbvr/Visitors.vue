@@ -6,7 +6,7 @@
       <el-breadcrumb-item>管理报表</el-breadcrumb-item>
       <el-breadcrumb-item>访客明细表</el-breadcrumb-item>
     </el-breadcrumb>
-    Visitor
+    Visitors
   </div>
 </template>
 

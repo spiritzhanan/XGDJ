@@ -1,7 +1,5 @@
 <template>
-  <div class="bac">
-    <img src="../assets/imgs/welcome.jpg" width="100%" />
-  </div>
+  <div class="bac"></div>
 </template>
 
 <script>

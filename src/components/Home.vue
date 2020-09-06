@@ -13,8 +13,6 @@
         <el-menu
           default-active="2"
           class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
           :unique-opened="true"
           :collapse-transition="false"
           router
@@ -31,6 +29,7 @@
               <el-menu-item index="closed">我关闭</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -41,6 +40,7 @@
               <el-menu-item index="scheck">学生审核</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+
           <el-submenu index="3">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -51,6 +51,7 @@
               <el-menu-item index="vcheck">志愿审核</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+
           <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -60,6 +61,7 @@
               <el-menu-item index="growth">成长履历</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+
           <el-submenu index="5">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -73,15 +75,17 @@
               <el-menu-item index="menu">公众号菜单栏</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+
           <el-submenu index="6">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>管理报表</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="visitor">访客明细</el-menu-item>
+              <el-menu-item index="visitors">访客列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+
           <el-submenu index="7">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -109,34 +113,12 @@
 <script>
 export default {
   data() {
-    return {
-      /* // 左侧菜单数据
-        menulist: [],
-        // 是否折叠
-        isCollapse: false*/
-    };
+    return {};
   },
-  /* created () {
-      this.getMenuList()
-    },*/
   methods: {
-    /* // 获取所有菜单
-      async getMenuList () {
-        const { data: result } = await this.$http.get('menus')
-        if (result.meta.status !== 200) return this.$message.error(result.meta.msg)
-        this.menulist = result.data
-        console.log(result)
-      },
-      */
     loginout() {
       window.sessionStorage.clear();
       this.$router.push("/login");
-    },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
     }
   }
 };
