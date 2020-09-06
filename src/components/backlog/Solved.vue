@@ -8,16 +8,17 @@
     </el-breadcrumb>
 
     <!--用户列表区域-->
-    <el-table :data="userList" border stripe>
+    <el-table :data="solveList" border stripe>
       <el-table-column label="#" type="index"></el-table-column>
-      <el-table-column label="任务状态" prop=""></el-table-column>
-      <el-table-column label="任务类型" prop=""></el-table-column>
-      <el-table-column label="任务标题" prop=""></el-table-column>
-      <el-table-column label="希望完成日期" prop=""></el-table-column>
-      <el-table-column label="指派给" prop=""></el-table-column>
-      <el-table-column label="创建人" prop=""></el-table-column>
-      <el-table-column label="解决人" prop=""></el-table-column>
-      <el-table-column label="关闭人" prop=""></el-table-column>
+      <el-table-column label="任务状态" prop="resolver"></el-table-column>
+      <el-table-column label="任务类型" prop="tasktype"></el-table-column>
+      <el-table-column label="任务标题" prop="srole"></el-table-column>
+      <el-table-column label="希望完成日期" prop="role"></el-table-column>
+      <el-table-column label="指派给" prop="closeperson"></el-table-column>
+      <el-table-column label="创建人" prop="tasktitle"></el-table-column>
+      <el-table-column label="解决人" prop="endtime"></el-table-column>
+      <el-table-column label="关闭人" prop="publisher"></el-table-column>
+      <el-table-column label="操作" prop="state"></el-table-column>
     </el-table>
 
     <!--分页区域-->
@@ -43,9 +44,28 @@ export default {
         //每页展示数
         pagesize: 2
       },
-      userList: [],
+      solveList: [],
+      id: "",
       total: 0
     };
+  },
+  created() {
+    this.id = window.sessionStorage.getItem("adminid");
+    this.token = window.sessionStorage.getItem("token");
+    this.getSolveList();
+  },
+  methods: {
+    //获取派给我
+    async getSolveList() {
+      const { data: res } = await this.$http.get("/Task/myResolve", {
+        params: { id: this.id }
+      });
+      console.log(res);
+      if (res.code !== "200") {
+        return this.$message.error("获取列表失败");
+      }
+      this.solveList = res.data.tasks;
+    }
   }
 };
 </script>

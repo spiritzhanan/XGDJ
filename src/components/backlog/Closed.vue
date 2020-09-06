@@ -17,16 +17,17 @@ export default {};
     </el-breadcrumb>
 
     <!--用户列表区域-->
-    <el-table :data="userList" border stripe>
+    <el-table :data="closeList" border stripe>
       <el-table-column label="#" type="index"></el-table-column>
-      <el-table-column label="任务状态" prop=""></el-table-column>
-      <el-table-column label="任务类型" prop=""></el-table-column>
-      <el-table-column label="任务标题" prop=""></el-table-column>
-      <el-table-column label="希望完成日期" prop=""></el-table-column>
-      <el-table-column label="指派给" prop=""></el-table-column>
-      <el-table-column label="创建人" prop=""></el-table-column>
-      <el-table-column label="解决人" prop=""></el-table-column>
-      <el-table-column label="关闭人" prop=""></el-table-column>
+      <el-table-column label="任务状态" prop="resolver"></el-table-column>
+      <el-table-column label="任务类型" prop="tasktype"></el-table-column>
+      <el-table-column label="任务标题" prop="srole"></el-table-column>
+      <el-table-column label="希望完成日期" prop="role"></el-table-column>
+      <el-table-column label="指派给" prop="closeperson"></el-table-column>
+      <el-table-column label="创建人" prop="tasktitle"></el-table-column>
+      <el-table-column label="解决人" prop="endtime"></el-table-column>
+      <el-table-column label="关闭人" prop="publisher"></el-table-column>
+      <el-table-column label="状态" prop="state"></el-table-column>
     </el-table>
 
     <!--分页区域-->
@@ -52,9 +53,28 @@ export default {
         //每页展示数
         pagesize: 2
       },
-      userList: [],
+      closeList: [],
+      id: "",
       total: 0
     };
+  },
+  created() {
+    this.id = window.sessionStorage.getItem("adminid");
+    this.token = window.sessionStorage.getItem("token");
+    this.getCloseLists();
+  },
+  methods: {
+    //获取派给我
+    async getCloseLists() {
+      const { data: res } = await this.$http.get("Task/myClose", {
+        params: { id: this.id }
+      });
+      console.log(res);
+      if (res.code !== "200") {
+        return this.$message.error("获取列表失败");
+      }
+      this.closeList = res.data.tasks;
+    }
   }
 };
 </script>

@@ -1,11 +1,47 @@
 <template>
   <el-container class="home_container">
     <!--头部组件-->
-    <el-header>
+    <!-- <el-header>
       <div>
         <span>信工党建</span>
       </div>
       <el-button type="info" @click="loginout">退出</el-button>
+    </el-header>-->
+    <el-header>
+      <div class="header">
+        <!-- 折叠按钮 -->
+        <div class="logo">信工党建</div>
+        <div class="header-right">
+          <div class="header-user-con">
+            <!-- 用户头像 -->
+            <div class="user-avator">
+              <img src="../assets/imgs/welcome.jpg" />
+            </div>
+            <!-- 用户名下拉菜单 -->
+            <el-dropdown
+              class="user-name"
+              trigger="click"
+              @command="handleCommand"
+            >
+              <span class="el-dropdown-link">
+                {{ username }}
+                <i class="el-icon-caret-bottom"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <a
+                  href="https://github.com/lin-xin/vue-manage-system"
+                  target="_blank"
+                >
+                  <el-dropdown-item>项目仓库</el-dropdown-item>
+                </a>
+                <el-dropdown-item divided command="loginout"
+                  >退出登录</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+        </div>
+      </div>
     </el-header>
     <el-container>
       <!--左侧菜单栏目-->
@@ -13,6 +49,8 @@
         <el-menu
           default-active="2"
           class="el-menu-vertical-demo"
+          @open="handleOpen"
+          @close="handleClose"
           :unique-opened="true"
           :collapse-transition="false"
           router
@@ -29,7 +67,6 @@
               <el-menu-item index="closed">我关闭</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -40,7 +77,6 @@
               <el-menu-item index="scheck">学生审核</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
           <el-submenu index="3">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -51,7 +87,6 @@
               <el-menu-item index="vcheck">志愿审核</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
           <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -61,7 +96,6 @@
               <el-menu-item index="growth">成长履历</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
           <el-submenu index="5">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -75,17 +109,15 @@
               <el-menu-item index="menu">公众号菜单栏</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
           <el-submenu index="6">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>管理报表</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="visitors">访客列表</el-menu-item>
+              <el-menu-item index="visitor">访客明细</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
           <el-submenu index="7">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -113,12 +145,48 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      menulist: [],
+      collapse: false,
+      fullscreen: false,
+      name: "hahaha",
+      message: 2
+    };
   },
+  computed: {
+    username() {
+      let username = localStorage.getItem("username");
+      return username ? username : this.name;
+    }
+  },
+  /* created () {
+        this.getMenuList()
+      },*/
   methods: {
+    /* // 获取所有菜单
+        async getMenuList () {
+          const { data: result } = await this.$http.get('menus')
+          if (result.meta.status !== 200) return this.$message.error(result.meta.msg)
+          this.menulist = result.data
+          console.log(result)
+        },
+        */
+    // 用户名下拉菜单选择事件
+    handleCommand(command) {
+      if (command == "loginout") {
+        localStorage.removeItem("username");
+        this.$router.push("/login");
+      }
+    },
     loginout() {
       window.sessionStorage.clear();
       this.$router.push("/login");
+    },
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
     }
   }
 };
@@ -133,31 +201,77 @@ export default {
   min-height: 400px;
 }
 .el-main {
+  position: absolute;
+  left: 210px;
+  right: 0;
+  top: 80px;
+  bottom: 0;
+  padding-top: 30px;
+  padding-left: 30px;
+  background: #f0f0f0;
 }
-.el-header {
-  background-color: #75b2ef;
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 0;
-  color: white;
-  align-items: center;
-  font-size: 20px;
-  > div {
-    display: flex;
-    align-items: center;
-    span {
-      margin-left: 15px;
-    }
-  }
-}
+
 .el-aside {
   display: block;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: hidden;
   .el-menu {
     border-right: none;
   }
 }
 .el-aside::-webkit-scrollbar {
   width: 0;
+}
+
+.el-header {
+  padding: 0;
+}
+.header {
+  position: relative;
+  box-sizing: border-box;
+  height: 60px;
+  font-size: 22px;
+  color: #fff;
+  background-color: #b4c7ea;
+}
+.collapse-btn {
+  float: left;
+  padding: 0 21px;
+  cursor: pointer;
+  line-height: 70px;
+}
+.header .logo {
+  float: left;
+  width: 250px;
+  line-height: 70px;
+}
+.header-right {
+  float: right;
+  padding-right: 50px;
+}
+.header-user-con {
+  display: flex;
+  height: 70px;
+  align-items: center;
+}
+
+.user-name {
+  margin-left: 10px;
+}
+.user-avator {
+  margin-left: 20px;
+}
+.user-avator img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.el-dropdown-link {
+  color: #ffffff;
+  cursor: pointer;
+}
+.el-dropdown-menu__item {
+  text-align: center;
 }
 </style>
