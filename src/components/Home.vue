@@ -28,12 +28,7 @@
                 <i class="el-icon-caret-bottom"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <a
-                  href="https://github.com/lin-xin/vue-manage-system"
-                  target="_blank"
-                >
-                  <el-dropdown-item>项目仓库</el-dropdown-item>
-                </a>
+                <el-dropdown-item>修改密码</el-dropdown-item>
                 <el-dropdown-item divided command="loginout"
                   >退出登录</el-dropdown-item
                 >
@@ -149,28 +144,19 @@ export default {
       menulist: [],
       collapse: false,
       fullscreen: false,
-      name: "hahaha",
       message: 2
     };
   },
   computed: {
     username() {
-      let username = localStorage.getItem("username");
-      return username ? username : this.name;
+      const username = window.sessionStorage.getItem("username");
+      return username;
     }
   },
   /* created () {
         this.getMenuList()
       },*/
   methods: {
-    /* // 获取所有菜单
-        async getMenuList () {
-          const { data: result } = await this.$http.get('menus')
-          if (result.meta.status !== 200) return this.$message.error(result.meta.msg)
-          this.menulist = result.data
-          console.log(result)
-        },
-        */
     // 用户名下拉菜单选择事件
     handleCommand(command) {
       if (command == "loginout") {
@@ -183,10 +169,10 @@ export default {
       this.$router.push("/login");
     },
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      return 0;
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      return 0;
     }
   }
 };

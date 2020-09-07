@@ -151,6 +151,7 @@ export default {
         this.$message.success("登录成功");
         window.sessionStorage.setItem("token", res.data.token);
         window.sessionStorage.setItem("adminid", res.data.admin.id);
+        window.sessionStorage.setItem("username", res.data.admin.number);
         this.$router.push("/home");
       });
     },

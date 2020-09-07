@@ -12,11 +12,7 @@
       <!--搜索与添加区域-->
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-input
-            placeholder="请输入内容"
-            v-model="queryInfo.query"
-            clearable
-          >
+          <el-input placeholder="请输入内容" clearable>
             <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </el-col>
@@ -45,9 +41,9 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="queryInfo.pageNum"
+      :current-page="pagination.pagenum"
       :page-sizes="[1, 2, 5, 10]"
-      :page-size="queryInfo.pageSize"
+      :page-size="pagination.pagesize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
     ></el-pagination>
@@ -88,14 +84,14 @@
 export default {
   data() {
     return {
-      queryInfo: {
-        query: "",
-        //当前页码数
-        pagenNm: 1,
-        //每页展示数
-        pageSize: 2
-      },
       createLists: [],
+      pagination: {
+        //当前页码数
+        pagenum: 1,
+        //每页展示数
+        pagesize: 2
+      },
+      //当前页面的数据总数
       total: 0,
       //空盒子添加用户的显示与隐藏
       addDialogVisible: false,
@@ -107,56 +103,44 @@ export default {
         examinetime: "",
         taskcontent: ""
       },
-      id: "",
-      token: ""
+      id: ""
     };
   },
   created() {
     this.id = window.sessionStorage.getItem("adminid");
-    this.token = window.sessionStorage.getItem("token");
     this.getCreateLists();
+    this.queryTask();
   },
   methods: {
     //获取我创建的任务
     async getCreateLists() {
-      const id = this.id;
       const { data: res } = await this.$http.get("/Task/sentMe", {
-        params: { id: id },
+        params: { id: this.id },
         headers: { token: this.token }
       });
-      console.log(res);
       if (res.code !== "200") {
         return this.$message.error("获取列表失败");
       }
       this.createLists = res.data.tasks;
     },
 
-    //查询我创建
-    async queryTask(queryInfo) {
-      queryInfo = this.queryInfo;
-      if (!queryInfo.query) {
-        this.getCreateLists();
+    //分页功能
+    async queryTask() {
+      const { data: res } = await this.$http.get("/Task/getTaskByLike");
+      if (res.code == "200") {
+        this.total = res.data.total;
       }
-      const { data: res } = await this.$http.get("/Task/sentMe", {
-        params: queryInfo
-      });
-      if (res.code !== "200") {
-        return this.$message.error("获取列表失败");
-      }
-      this.dispatchLists = res.data.list;
-      this.total = res.data.total;
     },
     //监听 pagesize 改变的事件
     handleSizeChange(newSize) {
-      //console.log(newSize)
-      this.queryInfo.pageSize = newSize;
-      this.getCreateLists();
+      this.pagination.pagesize = newSize;
+      this.queryTask();
     },
 
     //监听 页码值 改变的事件
     handleCurrentChange(newPage) {
-      this.queryInfo.pageNum = newPage;
-      this.getCreateLists();
+      this.pagination.pagenum = newPage;
+      this.queryTask();
     },
 
     //监听添加用户对话框的关闭事件

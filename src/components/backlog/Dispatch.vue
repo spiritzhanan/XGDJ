@@ -57,7 +57,6 @@ export default {
       const { data: res } = await this.$http.get("/Task/sentMe", {
         params: { id: this.id }
       });
-      console.log(res);
       if (res.code !== "200") {
         return this.$message.error("获取列表失败");
       }
