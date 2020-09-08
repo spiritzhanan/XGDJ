@@ -39,12 +39,10 @@
 
     <!--分页区域-->
     <el-pagination
-      @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="pagination.pagenum"
-      :page-sizes="[1, 2, 5, 10]"
-      :page-size="pagination.pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
+      :current-page="pagenum"
+      :page-size="pagesize"
+      layout="prev, pager, next,total"
       :total="total"
     ></el-pagination>
 
@@ -63,7 +61,7 @@
           <el-input v-model="addForm.tasktitle"></el-input>
         </el-form-item>
         <el-form-item label="指派给">
-          <el-input v-model="addForm.publisher"></el-input>
+          <el-input v-model="addForm.srole"></el-input>
         </el-form-item>
         <el-form-item label="希望完成日期">
           <el-input v-model="addForm.examinetime"></el-input>
@@ -85,12 +83,10 @@ export default {
   data() {
     return {
       createLists: [],
-      pagination: {
-        //当前页码数
-        pagenum: 1,
-        //每页展示数
-        pagesize: 2
-      },
+      //当前页码数
+      pagenum: 1,
+      // 每页展示数
+      pagesize: 10,
       //当前页面的数据总数
       total: 0,
       //空盒子添加用户的显示与隐藏
@@ -99,7 +95,7 @@ export default {
       addForm: {
         tasktype: "",
         tasktitle: "",
-        publisher: "",
+        srole: "",
         examinetime: "",
         taskcontent: ""
       },
@@ -109,38 +105,24 @@ export default {
   created() {
     this.id = window.sessionStorage.getItem("adminid");
     this.getCreateLists();
-    this.queryTask();
   },
   methods: {
     //获取我创建的任务
     async getCreateLists() {
       const { data: res } = await this.$http.get("/Task/sentMe", {
-        params: { id: this.id },
-        headers: { token: this.token }
+        params: { id: this.id, pageNum: this.pagenum }
       });
       if (res.code !== "200") {
         return this.$message.error("获取列表失败");
       }
-      this.createLists = res.data.tasks;
-    },
-
-    //分页功能
-    async queryTask() {
-      const { data: res } = await this.$http.get("/Task/getTaskByLike");
-      if (res.code == "200") {
-        this.total = res.data.total;
-      }
-    },
-    //监听 pagesize 改变的事件
-    handleSizeChange(newSize) {
-      this.pagination.pagesize = newSize;
-      this.queryTask();
+      this.total = res.data.total;
+      this.createLists = res.data.list;
     },
 
     //监听 页码值 改变的事件
     handleCurrentChange(newPage) {
-      this.pagination.pagenum = newPage;
-      this.queryTask();
+      this.pagenum = newPage;
+      this.getCreateLists();
     },
 
     //监听添加用户对话框的关闭事件
@@ -150,13 +132,19 @@ export default {
 
     //添加任务
     async addTask() {
-      const { data: res } = await this.$http.post("/Task/addTask", {
-        task: this.addForm
-      });
+      let task = {
+        tasktype: this.addForm.tasktype,
+        tasktitle: this.addForm.tasktitle,
+        srole: this.addForm.srole,
+        examinetime: this.addForm.examinetime,
+        taskcontent: this.addForm.taskcontent
+      };
+      const { data: res } = await this.$http.post("/Task/addTask", task);
       if (res.code !== "200") {
         this.$message.error("任务添加失败");
       }
       this.$message.success("任务添加成功");
+      console.log(this.addForm);
       //隐藏添加用户对话框
       this.addDialogVisible = false;
       this.getCreateLists();

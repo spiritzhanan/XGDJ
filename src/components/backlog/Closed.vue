@@ -60,7 +60,6 @@ export default {
   },
   created() {
     this.id = window.sessionStorage.getItem("adminid");
-    this.token = window.sessionStorage.getItem("token");
     this.getCloseLists();
   },
   methods: {
@@ -72,7 +71,7 @@ export default {
       if (res.code !== "200") {
         return this.$message.error("获取列表失败");
       }
-      this.closeList = res.data.tasks;
+      this.closeList = res.data.list;
     }
   }
 };

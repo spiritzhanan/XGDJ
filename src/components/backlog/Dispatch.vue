@@ -60,7 +60,7 @@ export default {
       if (res.code !== "200") {
         return this.$message.error("获取列表失败");
       }
-      this.dispatchLists = res.data.tasks;
+      this.dispatchLists = res.data.list;
     }
   }
 };
