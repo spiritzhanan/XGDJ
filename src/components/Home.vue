@@ -182,6 +182,9 @@ export default {
 .home_container {
   height: 100%;
 }
+.el-container {
+  height: calc(100% - 60px);
+}
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;

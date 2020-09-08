@@ -116,6 +116,7 @@ export default {
         return this.$message.error("获取列表失败");
       }
       this.total = res.data.total;
+      this.pagesize = res.data.pageSize;
       this.createLists = res.data.list;
     },
 
