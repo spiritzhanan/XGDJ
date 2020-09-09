@@ -10,12 +10,7 @@
     <!--卡片视图-->
     <el-card>
       <!--搜索与添加区域-->
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-input placeholder="请输入内容" clearable>
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>
-        </el-col>
+      <el-row>
         <el-col :span="4">
           <el-button type="primary" @click="addDialogVisible = true"
             >添加用户</el-button
@@ -42,8 +37,9 @@
       @current-change="handleCurrentChange"
       :current-page="pagenum"
       :page-size="pagesize"
-      layout="prev, pager, next,total"
+      layout="total,prev, pager, next,jumper"
       :total="total"
+      background
     ></el-pagination>
 
     <!--添加用户的对话框-->
@@ -53,18 +49,31 @@
       width="50%"
       @close="addDialogClosed"
     >
-      <el-form :model="addForm" ref="addFormRef" label-width="70px">
-        <el-form-item label="任务类型">
+      <el-form
+        :model="addForm"
+        :rules="rules"
+        ref="addFormRef"
+        label-width="100px"
+      >
+        <el-form-item label="任务类型" prop="tasktype">
           <el-input v-model="addForm.tasktype"></el-input>
         </el-form-item>
         <el-form-item label="任务标题">
           <el-input v-model="addForm.tasktitle"></el-input>
         </el-form-item>
-        <el-form-item label="指派给">
-          <el-input v-model="addForm.srole"></el-input>
+        <el-form-item label="指派给谁">
+          <el-select v-model="addForm.srole" style="width: 100%">
+            <el-option label="管理员" value="管理员"></el-option>
+            <el-option label="信息工程学院" value="信息工程学院"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="希望完成日期">
-          <el-input v-model="addForm.examinetime"></el-input>
+          <el-date-picker
+            type="date"
+            placeholder="请选择希望完成日期"
+            v-model="addForm.examinetime"
+            style="width: 100%;"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="任务描述">
           <el-input type="textarea" v-model="addForm.taskcontent"></el-input>
@@ -99,7 +108,13 @@ export default {
         examinetime: "",
         taskcontent: ""
       },
-      id: ""
+      value: "",
+      id: "",
+      rules: {
+        tasktype: [
+          { required: true, message: "请输入活动名称", trigger: "blur" }
+        ]
+      }
     };
   },
   created() {
@@ -129,23 +144,19 @@ export default {
     //监听添加用户对话框的关闭事件
     addDialogClosed() {
       this.$refs.addFormRef.resetFields();
+      // this.addForm = {};
     },
 
     //添加任务
     async addTask() {
-      let task = {
-        tasktype: this.addForm.tasktype,
-        tasktitle: this.addForm.tasktitle,
-        srole: this.addForm.srole,
-        examinetime: this.addForm.examinetime,
-        taskcontent: this.addForm.taskcontent
-      };
-      const { data: res } = await this.$http.post("/Task/addTask", task);
+      const { data: res } = await this.$http.post(
+        "/Task/addTask",
+        this.addForm
+      );
       if (res.code !== "200") {
         this.$message.error("任务添加失败");
       }
       this.$message.success("任务添加成功");
-      console.log(this.addForm);
       //隐藏添加用户对话框
       this.addDialogVisible = false;
       this.getCreateLists();
