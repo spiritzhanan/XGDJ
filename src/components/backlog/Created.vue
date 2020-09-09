@@ -125,9 +125,9 @@ export default {
     //获取我创建的任务
     async getCreateLists() {
       const { data: res } = await this.$http.get("/Task/sentMe", {
-        params: { id: this.id, pageNum: this.pagenum }
+        params: { id: this.id, pageNum: this.pagenum, pageSize: this.pagesize }
       });
-      if (res.code !== "200") {
+      if (res.code !== 200) {
         return this.$message.error("获取列表失败");
       }
       this.total = res.data.total;
