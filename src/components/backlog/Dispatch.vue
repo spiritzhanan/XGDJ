@@ -15,20 +15,20 @@
       <el-table-column label="任务标题" prop="tasktitle"></el-table-column>
       <el-table-column label="希望完成日期" prop="endtime"></el-table-column>
       <el-table-column label="指派给" prop="srole"></el-table-column>
-      <el-table-column label="创建人" prop="role"></el-table-column>
+      <el-table-column label="创建人" prop="publisher"></el-table-column>
       <el-table-column label="解决人" prop="resolver"></el-table-column>
       <el-table-column label="关闭人" prop="closeperson"></el-table-column>
     </el-table>
 
     <!--分页-->
     <el-pagination
-      :current-page="queryInfo.pagenum"
-      :page-sizes="[1, 2, 5, 10]"
-      :page-size="queryInfo.pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
+      @current-change="handleCurrentChange"
+      :current-page="pagenum"
+      :page-size="pagesize"
+      layout="total,prev, pager, next,jumper"
       :total="total"
-    >
-    </el-pagination>
+      background
+    ></el-pagination>
   </div>
 </template>
 
@@ -36,12 +36,10 @@
 export default {
   data() {
     return {
-      queryInfo: {
-        //当前页码数
-        pagenum: 1,
-        //每页展示数
-        pagesize: 2
-      },
+      //当前页码数
+      pagenum: 1,
+      //每页展示数
+      pagesize: 5,
       dispatchLists: [],
       total: 0,
       id: ""
@@ -55,12 +53,18 @@ export default {
     //获取派给我
     async getDispatchLists() {
       const { data: res } = await this.$http.get("/Task/sentMe", {
-        params: { id: this.id }
+        params: { id: this.id, pageNum: this.pagenum, pageSize: this.pagesize }
       });
       if (res.code !== 200) {
         return this.$message.error("获取列表失败");
       }
+      this.total = res.data.total;
       this.dispatchLists = res.data.list;
+    },
+    //监听 页码值 改变的事件
+    handleCurrentChange(newPage) {
+      this.pagenum = newPage;
+      this.getDispatchLists();
     }
   }
 };

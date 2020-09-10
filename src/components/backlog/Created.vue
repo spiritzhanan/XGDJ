@@ -42,7 +42,7 @@
       background
     ></el-pagination>
 
-    <!--添加用户的对话框-->
+    <!--新建对话框-->
     <el-dialog
       title="添加用户"
       :visible.sync="addDialogVisible"
@@ -70,7 +70,7 @@
         <el-form-item label="希望完成日期">
           <el-date-picker
             type="date"
-            placeholder="请选择希望完成日期"
+            placeholder="请选择希望完成日期时间"
             v-model="addForm.examinetime"
             style="width: 100%;"
           ></el-date-picker>
@@ -95,7 +95,7 @@ export default {
       //当前页码数
       pagenum: 1,
       // 每页展示数
-      pagesize: 10,
+      pagesize: 5,
       //当前页面的数据总数
       total: 0,
       //空盒子添加用户的显示与隐藏
@@ -108,7 +108,6 @@ export default {
         examinetime: "",
         taskcontent: ""
       },
-      value: "",
       id: "",
       rules: {
         tasktype: [
@@ -124,14 +123,13 @@ export default {
   methods: {
     //获取我创建的任务
     async getCreateLists() {
-      const { data: res } = await this.$http.get("/Task/sentMe", {
+      const { data: res } = await this.$http.get("/Task/myPublish", {
         params: { id: this.id, pageNum: this.pagenum, pageSize: this.pagesize }
       });
       if (res.code !== 200) {
         return this.$message.error("获取列表失败");
       }
       this.total = res.data.total;
-      this.pagesize = res.data.pageSize;
       this.createLists = res.data.list;
     },
 
@@ -153,7 +151,8 @@ export default {
         "/Task/addTask",
         this.addForm
       );
-      if (res.code !== "200") {
+      console.log(this.addForm);
+      if (res.code !== 200) {
         this.$message.error("任务添加失败");
       }
       this.$message.success("任务添加成功");

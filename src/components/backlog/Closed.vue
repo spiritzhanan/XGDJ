@@ -1,13 +1,4 @@
 <template>
-  <div></div>
-</template>
-
-<script>
-export default {};
-</script>
-
-<style lang="less" scoped></style>
-<template>
   <div>
     <!--面包屑导航区域-->
     <el-breadcrumb separator="/">
@@ -32,13 +23,13 @@ export default {};
 
     <!--分页区域-->
     <el-pagination
-      :current-page="queryInfo.pagenum"
-      :page-sizes="[1, 2, 5, 10]"
-      :page-size="queryInfo.pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
+      @current-change="handleCurrentChange"
+      :current-page="pagenum"
+      :page-size="pagesize"
+      layout="total,prev, pager, next,jumper"
       :total="total"
-    >
-    </el-pagination>
+      background
+    ></el-pagination>
   </div>
 </template>
 
@@ -46,13 +37,10 @@ export default {};
 export default {
   data() {
     return {
-      queryInfo: {
-        query: "",
-        //当前页码数
-        pagenum: 1,
-        //每页展示数
-        pagesize: 2
-      },
+      //当前页码数
+      pagenum: 1,
+      //每页展示数
+      pagesize: 5,
       closeList: [],
       id: "",
       total: 0
@@ -63,14 +51,20 @@ export default {
     this.getCloseLists();
   },
   methods: {
+    //监听 页码值 改变的事件
+    handleCurrentChange(newPage) {
+      this.pagenum = newPage;
+      this.getCloseLists();
+    },
     //获取派给我
     async getCloseLists() {
       const { data: res } = await this.$http.get("/Task/myClose", {
-        params: { id: this.id }
+        params: { id: this.id, pageNum: this.pagenum, pageSize: this.pagesize }
       });
       if (res.code !== 200) {
         return this.$message.error("获取列表失败");
       }
+      this.total = res.data.total;
       this.closeList = res.data.list;
     }
   }
