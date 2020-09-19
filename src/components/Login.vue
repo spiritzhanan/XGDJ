@@ -116,7 +116,6 @@ export default {
       }
     };
   },
-
   components: {
     Identify
   },
@@ -129,7 +128,6 @@ export default {
     resetLoginForm() {
       this.$refs.loginFormRef.resetFields();
     },
-
     //登录预验证
     login() {
       if (
@@ -154,7 +152,6 @@ export default {
         this.$router.push("/home");
       });
     },
-
     //验证码
     randomNum(min, max) {
       return Math.floor(Math.random() * (max - min) + min);
@@ -192,11 +189,9 @@ export default {
   width: 140px;
   margin-left: 5px;
 }
-
 .el-button + .el-button {
   margin-left: 10px;
 }
-
 #gnyxyImg {
   width: 200px;
   height: 100px;

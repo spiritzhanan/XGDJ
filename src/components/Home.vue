@@ -202,8 +202,8 @@ export default {
 
 .el-aside {
   display: block;
-  /*overflow-x: hidden;*/
-  /*overflow-y: hidden;*/
+  overflow-x: hidden;
+  overflow-y: hidden;
   .el-menu {
     border-right: none;
   }

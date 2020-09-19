@@ -7,61 +7,60 @@
       <el-breadcrumb-item>志愿审核</el-breadcrumb-item>
     </el-breadcrumb>
     <!--查询输入框-->
-    <el-form>
-      学生姓名<el-input
-        placeholder="请输入内容"
-        suffix-icon="el-icon-date"
-        v-model="input1"
-      >
-      </el-input>
-      学生学号<el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      学生电话<el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      任务状态
-      <el-input
-        placeholder="请输入内容"
-        suffix-icon="el-icon-date"
-        v-model="input4"
-      >
-      </el-input>
+    <el-row>
+      <el-col :span="19">
+        <el-form class="query">
+          <el-input
+            placeholder="请输入学生姓名"
+            clearable
+            v-model="queryInfo.username"
+          ></el-input>
+          <el-input
+            placeholder="请输入学生学号"
+            clearable
+            v-model="queryInfo.snumber"
+          >
+          </el-input>
+          <el-input
+            placeholder="请输入学生电话"
+            clearable
+            v-model="queryInfo.phone"
+          ></el-input>
+          <el-input
+            placeholder="请输入任务状态"
+            clearable
+            v-model="queryInfo.state"
+          >
+          </el-input>
 
-      <el-button type="primary">查询</el-button>
-    </el-form>
+          <el-button type="primary" @click="">查询</el-button>
+        </el-form>
+      </el-col>
+      <el-col :span="5" class="btns">
+        <el-button type="success" @click="">新增</el-button>
+        <el-button type="info">删除</el-button>
+      </el-col>
+    </el-row>
     <el-button type="danger">返回</el-button>
     <el-button type="danger">已完成</el-button>
     <el-button type="danger">缺席</el-button>
     <!--用户列表区域-->
-    <el-table :data="taskLists" border stripe>
+    <el-table :data="vchecks" border stripe>
       <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column label="任务编号" prop=""></el-table-column>
-      <el-table-column label="用户编号" prop=""></el-table-column>
-      <el-table-column label="学生学号" prop=""></el-table-column>
-      <el-table-column label="学生姓名 " prop=""></el-table-column>
-      <el-table-column label="学生电话 " prop=""></el-table-column>
+      <el-table-column label="任务编号" prop="number"></el-table-column>
+      <el-table-column label="用户编号" prop="number"></el-table-column>
+      <el-table-column label="学生学号" prop="snumber"></el-table-column>
+      <el-table-column label="学生姓名 " prop="username"></el-table-column>
+      <el-table-column label="学生电话 " prop="phone"></el-table-column>
       <el-table-column
         label="任务接收时间"
         width="100"
-        prop=""
+        prop="examinetime"
       ></el-table-column>
       <el-table-column
         label="任务审核时间 "
         width="100"
-        prop="tasktype"
+        prop="endtime"
       ></el-table-column>
       <el-table-column label="审核人" prop=""></el-table-column>
       <el-table-column label="任务状态" prop=""></el-table-column>
@@ -71,9 +70,8 @@
     <!--分页区域-->
     <el-pagination
       :current-page="queryInfo.pagenum"
-      :page-sizes="[1, 2, 5, 10]"
       :page-size="queryInfo.pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
+      layout="total,  prev, pager, next, jumper"
       :total="total"
     >
     </el-pagination>
@@ -85,40 +83,55 @@ export default {
   data() {
     return {
       queryInfo: {
+        number: "",
+        snumber: "",
+        username: "",
+        phone: "",
+        examinetime: "",
+        endtime: "",
         query: "",
         //当前页码数
         pagenum: 1,
         //每页展示数
-        pagesize: 2
+        pagesize: 6
       },
-      taskLists: [],
-      total: 0,
-      input1: "",
-      input4: "",
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
-      value: "",
-      token: ""
+      vchecks: [],
+      total: 0
     };
+  },
+  mounted() {
+    this.getVcheck();
+  },
+  methods: {
+    async getVcheck() {
+      const { data: res } = await this.$http.get("/Task/getTaskByLike", {
+        params: this.queryInfo
+      });
+      if (res.code !== 200) {
+        this.$message.info("获取数据失败");
+      }
+      console.log(res);
+      this.total = res.data.total;
+      this.vchecks = res.data.list;
+    }
   }
 };
 </script>
 
 <style lang="less" scoped>
-.el-input {
-  width: 150px;
-  margin: 10px;
+.query {
+  .el-input {
+    width: 160px;
+    margin: 5px;
+  }
+  .el-select {
+    width: 160px;
+    margin: 10px;
+  }
 }
-.el-select {
-  width: 150px;
-  margin: 10px;
+.btns {
+  position: relative;
+  top: 9.5px;
+  left: -12px;
 }
 </style>

@@ -132,21 +132,19 @@ export default {
       this.total = res.data.total;
       this.createLists = res.data.list;
     },
-
     //监听 页码值 改变的事件
     handleCurrentChange(newPage) {
       this.pagenum = newPage;
       this.getCreateLists();
     },
-
     //监听添加用户对话框的关闭事件
     addDialogClosed() {
       this.$refs.addFormRef.resetFields();
       // this.addForm = {};
     },
-
     //添加任务
     async addTask() {
+      //路径 + 要请求的数据
       const { data: res } = await this.$http.post(
         "/Task/addTask",
         this.addForm
