@@ -129,7 +129,7 @@ export default {
     },
     drawDot(ctx) {
       // 绘制干扰点
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 30; i++) {
         ctx.fillStyle = this.randomColor(0, 255);
         ctx.beginPath();
         ctx.arc(
