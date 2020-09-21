@@ -1,12 +1,5 @@
 <template>
   <el-container class="home_container">
-    <!--头部组件-->
-    <!-- <el-header>
-      <div>
-        <span>信工党建</span>
-      </div>
-      <el-button type="info" @click="loginout">退出</el-button>
-    </el-header>-->
     <el-header>
       <div class="header">
         <!-- 折叠按钮 -->
@@ -153,9 +146,6 @@ export default {
       return username;
     }
   },
-  /* created () {
-        this.getMenuList()
-      },*/
   methods: {
     // 用户名下拉菜单选择事件
     handleCommand(command) {

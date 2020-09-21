@@ -7,7 +7,7 @@
       <el-breadcrumb-item>派给我</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <!--用户列表区域-->
+    <!--派给我列表区域-->
     <el-table :data="dispatchLists" border stripe>
       <el-table-column label="#" type="index"></el-table-column>
       <el-table-column label="任务状态" prop="state"></el-table-column>

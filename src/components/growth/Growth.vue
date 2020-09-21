@@ -5,36 +5,53 @@
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>成长履历</el-breadcrumb-item>
     </el-breadcrumb>
-    <!--查询输入框-->
-    <el-form>
-      学生学号<el-input
-        placeholder="请输入内容"
-        suffix-icon="el-icon-date"
-        v-model="input1"
-      >
-      </el-input>
-      学生姓名<el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      发生时间
-      <el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      来源类型<el-input placeholder="请输入内容" v-model="input4"> </el-input>
-      <el-button type="primary">查询</el-button>
-    </el-form>
+    <!--卡片区域-->
+    <el-card>
+      <!--查询输入框-->
+      <el-row>
+        <el-col :span="19">
+          <el-form class="query">
+            <el-input
+              placeholder="请输入任务名"
+              clearable
+              v-model="queryInfo.tasktitle"
+            ></el-input>
+            <el-select
+              v-model="queryInfo.srole"
+              clearable
+              placeholder="请选择任务对象"
+            >
+              <el-option label="普通群众" value="普通群众"></el-option>
+              <el-option label="入党申请人" value="入党申请人"></el-option>
+              <el-option label="入党积极分子" value="入党积极分子"></el-option>
+              <el-option label="发展对象" value="发展对象"></el-option>
+              <el-option label="预备党员" value="预备党员"></el-option>
+              <el-option label="正式党员" value="正式党员"></el-option>
+              <el-option label="管理员" value="管理员"></el-option>
+            </el-select>
+            <el-input
+              placeholder="请输入发布人"
+              clearable
+              v-model="queryInfo.publisher"
+            >
+            </el-input>
+            <el-select
+              v-model="queryInfo.state"
+              clearable
+              placeholder="请选择任务状态"
+            >
+              <el-option label="显示" value="显示"></el-option>
+              <el-option label="隐藏" value="隐藏"></el-option>
+            </el-select>
+            <el-button type="primary" @click="getTaskList">查询</el-button>
+          </el-form>
+        </el-col>
+        <el-col :span="5">
+          <el-button type="success" @click="publishTask">发布任务</el-button>
+          <el-button type="info" @click="delAll">删除</el-button>
+        </el-col>
+      </el-row>
+    </el-card>
 
     <!--用户列表区域-->
     <el-table :data="taskLists" border stripe>
@@ -53,20 +70,7 @@
 export default {
   data() {
     return {
-      input1: "",
-      input4: "",
       taskLists: [],
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
-      value: "",
       token: ""
     };
   }

@@ -7,7 +7,7 @@
       <el-breadcrumb-item>我关闭</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <!--用户列表区域-->
+    <!--我关闭列表区域-->
     <el-table :data="closeList" border stripe>
       <el-table-column label="#" type="index"></el-table-column>
       <el-table-column label="任务状态" prop="resolver"></el-table-column>
@@ -18,7 +18,6 @@
       <el-table-column label="创建人" prop="tasktitle"></el-table-column>
       <el-table-column label="解决人" prop="endtime"></el-table-column>
       <el-table-column label="关闭人" prop="publisher"></el-table-column>
-      <el-table-column label="状态" prop="state"></el-table-column>
     </el-table>
 
     <!--分页区域-->

@@ -9,17 +9,16 @@
 
     <!--卡片视图-->
     <el-card>
-      <!--搜索与添加区域-->
       <el-row>
         <el-col :span="4">
           <el-button type="primary" @click="addDialogVisible = true"
-            >添加用户</el-button
+            >新建任务</el-button
           >
         </el-col>
       </el-row>
     </el-card>
 
-    <!--用户列表区域-->
+    <!--我创建列表区域-->
     <el-table :data="createLists" border stripe>
       <el-table-column label="#" type="index"></el-table-column>
       <el-table-column label="任务状态" prop="state"></el-table-column>
@@ -44,7 +43,7 @@
 
     <!--新建对话框-->
     <el-dialog
-      title="添加用户"
+      title="新建任务"
       :visible.sync="addDialogVisible"
       width="50%"
       @close="addDialogClosed"
@@ -98,9 +97,9 @@ export default {
       pagesize: 5,
       //当前页面的数据总数
       total: 0,
-      //空盒子添加用户的显示与隐藏
+      //控制新建任务的显示与隐藏
       addDialogVisible: false,
-      //添加用户的表单数据
+      //新建任务的表单数据
       addForm: {
         tasktype: "",
         tasktitle: "",

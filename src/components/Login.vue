@@ -71,7 +71,7 @@
 
       <!--底部-->
       <el-footer>
-        <h3>赣南医学院</h3>
+        <h3>赣南医学院医学信息工程学院党建公众号</h3>
       </el-footer>
     </el-container>
   </div>

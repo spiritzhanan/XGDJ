@@ -7,7 +7,7 @@
       <el-breadcrumb-item>我解决</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <!--用户列表区域-->
+    <!--我解决列表区域-->
     <el-table :data="solveList" border stripe>
       <el-table-column label="#" type="index"></el-table-column>
       <el-table-column label="任务状态" prop="resolver"></el-table-column>
@@ -18,7 +18,6 @@
       <el-table-column label="创建人" prop="tasktitle"></el-table-column>
       <el-table-column label="解决人" prop="endtime"></el-table-column>
       <el-table-column label="关闭人" prop="publisher"></el-table-column>
-      <el-table-column label="操作" prop="state"></el-table-column>
     </el-table>
 
     <!--分页区域-->
