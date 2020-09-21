@@ -87,7 +87,7 @@
           <el-submenu index="5">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>待办事项</span>
+              <span>网页管理</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="file">文档管理</el-menu-item>
@@ -193,7 +193,7 @@ export default {
 .el-aside {
   display: block;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: scroll;
   .el-menu {
     border-right: none;
   }

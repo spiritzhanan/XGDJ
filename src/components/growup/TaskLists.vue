@@ -11,7 +11,7 @@
     <el-card>
       <!--查询输入框-->
       <el-row>
-        <el-col :span="19">
+        <el-col :span="20">
           <el-form class="query">
             <el-input
               placeholder="请输入任务名"
@@ -48,8 +48,8 @@
             <el-button type="primary" @click="getTaskList">查询</el-button>
           </el-form>
         </el-col>
-        <el-col :span="5">
-          <el-button type="success" @click="publishTask">发布任务</el-button>
+        <el-col :span="4">
+          <el-button type="success" @click="publishTask">发布</el-button>
           <el-button type="info">删除</el-button>
         </el-col>
       </el-row>

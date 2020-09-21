@@ -6,44 +6,37 @@
       <el-breadcrumb-item>网页管理</el-breadcrumb-item>
       <el-breadcrumb-item>广告管理</el-breadcrumb-item>
     </el-breadcrumb>
-    <!--查询输入框-->
-    <el-form>
-      编号<el-input
-        placeholder="请输入内容"
-        suffix-icon="el-icon-date"
-        v-model="input1"
-      >
-      </el-input>
-      广告类型<el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      显示顺序<el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      标题<el-input
-        placeholder="请输入内容"
-        suffix-icon="el-icon-date"
-        v-model="input4"
-      >
-      </el-input>
+    <!--卡片区域-->
+    <el-card>
+      <!--查询输入框-->
+      <el-form class="query">
+        <el-input
+          placeholder="请输入编号"
+          clearable
+          v-model="queryInfo.tasktitle"
+        ></el-input>
+        <el-input
+          placeholder="请输入广告类型"
+          clearable
+          v-model="queryInfo.tasktitle"
+        ></el-input>
 
-      <el-button type="primary">查询</el-button>
-    </el-form>
+        <el-input
+          placeholder="请输入显示顺序"
+          clearable
+          v-model="queryInfo.publisher"
+        >
+        </el-input
+        ><el-input
+          placeholder="请输入标题"
+          clearable
+          v-model="queryInfo.publisher"
+        >
+        </el-input>
 
-    <el-button type="primary">新增</el-button>
-    <el-button type="danger">删除</el-button>
+        <el-button type="primary">查询</el-button>
+      </el-form>
+    </el-card>
     <!--用户列表区域-->
     <el-table :data="taskLists" border stripe>
       <el-table-column type="selection" width="55"> </el-table-column>
@@ -72,40 +65,25 @@ export default {
   data() {
     return {
       queryInfo: {
-        query: "",
+        tasktitle: "",
+        publisher: "",
         //当前页码数
         pagenum: 1,
         //每页展示数
         pagesize: 2
       },
       taskLists: [],
-      total: 0,
-      input1: "",
-      input4: "",
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
-      value: "",
-      token: ""
+      total: 0
     };
   }
 };
 </script>
 
 <style lang="less" scoped>
-.el-input {
-  width: 150px;
-  margin: 10px;
-}
-.el-select {
-  width: 150px;
-  margin: 10px;
+.query {
+  .el-input {
+    width: 200px;
+    margin: 10px;
+  }
 }
 </style>

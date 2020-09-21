@@ -6,44 +6,42 @@
       <el-breadcrumb-item>志愿任务</el-breadcrumb-item>
       <el-breadcrumb-item>志愿审核</el-breadcrumb-item>
     </el-breadcrumb>
-    <!--查询输入框-->
-    <el-row>
-      <el-col :span="19">
-        <el-form class="query">
-          <el-input
-            placeholder="请输入学生姓名"
-            clearable
-            v-model="queryInfo.username"
-          ></el-input>
-          <el-input
-            placeholder="请输入学生学号"
-            clearable
-            v-model="queryInfo.snumber"
-          >
-          </el-input>
-          <el-input
-            placeholder="请输入学生电话"
-            clearable
-            v-model="queryInfo.phone"
-          ></el-input>
-          <el-input
-            placeholder="请输入任务状态"
-            clearable
-            v-model="queryInfo.state"
-          >
-          </el-input>
 
-          <el-button type="primary" @click="">查询</el-button>
-        </el-form>
-      </el-col>
-      <el-col :span="5" class="btns">
-        <el-button type="success" @click="">新增</el-button>
-        <el-button type="info">删除</el-button>
-      </el-col>
-    </el-row>
-    <el-button type="danger">返回</el-button>
-    <el-button type="danger">已完成</el-button>
-    <el-button type="danger">缺席</el-button>
+    <el-card>
+      <!--查询输入框-->
+      <el-form class="query">
+        <el-input
+          placeholder="请输入学生姓名"
+          clearable
+          v-model="queryInfo.username"
+        ></el-input>
+        <el-input
+          placeholder="请输入学生学号"
+          clearable
+          v-model="queryInfo.snumber"
+        >
+        </el-input>
+        <el-input
+          placeholder="请输入学生电话"
+          clearable
+          v-model="queryInfo.phone"
+        ></el-input>
+        <el-input
+          placeholder="请输入任务状态"
+          clearable
+          v-model="queryInfo.state"
+        >
+        </el-input>
+
+        <el-button type="primary" @click="">查询</el-button>
+      </el-form>
+
+      <el-button type="success">新增</el-button>
+      <el-button type="info">删除</el-button>
+      <el-button type="danger">已完成</el-button>
+      <el-button type="danger">缺席</el-button>
+    </el-card>
+
     <!--用户列表区域-->
     <el-table :data="vchecks" border stripe>
       <el-table-column type="selection" width="55"> </el-table-column>
