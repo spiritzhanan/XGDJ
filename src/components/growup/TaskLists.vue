@@ -65,11 +65,13 @@
       <el-table-column
         label="任务开始时间"
         prop="starttime"
+        :formatter="dateFormat"
         width="90"
       ></el-table-column>
       <el-table-column
         label="任务结束时间"
         prop="endtime"
+        :formatter="dateFormat"
         width="90"
       ></el-table-column>
       <el-table-column label="发布人" prop="publisher"></el-table-column>
@@ -132,7 +134,7 @@
         </el-form-item>
         <el-form-item label="任务开始时间">
           <el-date-picker
-            type="date"
+            type="datetime"
             v-model="addForm.starttime"
             style="width: 100%;"
             clearable
@@ -140,7 +142,7 @@
         </el-form-item>
         <el-form-item label="任务结束时间">
           <el-date-picker
-            type="date"
+            type="datetime"
             v-model="addForm.endtime"
             style="width: 100%;"
             clearable
@@ -198,6 +200,24 @@ export default {
     this.getTaskList();
   },
   methods: {
+    //表格中修改时间格式
+    dateFormat(row, column, cellValue, index) {
+      const daterc = row[column.property];
+      if (daterc != null) {
+        const dateMat = new Date(
+          parseInt(daterc.replace("/Date(", "").replace(")/", ""), 10)
+        );
+        const year = dateMat.getFullYear();
+        const month = dateMat.getMonth() + 1;
+        const day = dateMat.getDate();
+        const hh = dateMat.getHours();
+        const mm = dateMat.getMinutes();
+        const ss = dateMat.getSeconds();
+        const timeFormat =
+          year + "-" + month + "-" + day + " " + hh + ":" + mm + ":" + ss;
+        return timeFormat;
+      }
+    },
     async getTaskList() {
       const { data: res } = await this.$http.get("/Task/getTaskBySearch", {
         params: {

@@ -10,14 +10,18 @@
     <!--我解决列表区域-->
     <el-table :data="solveList" border stripe>
       <el-table-column label="#" type="index"></el-table-column>
-      <el-table-column label="任务状态" prop="resolver"></el-table-column>
+      <el-table-column label="任务状态" prop="state"></el-table-column>
       <el-table-column label="任务类型" prop="tasktype"></el-table-column>
-      <el-table-column label="任务标题" prop="srole"></el-table-column>
-      <el-table-column label="希望完成日期" prop="role"></el-table-column>
-      <el-table-column label="指派给" prop="closeperson"></el-table-column>
-      <el-table-column label="创建人" prop="tasktitle"></el-table-column>
-      <el-table-column label="解决人" prop="endtime"></el-table-column>
-      <el-table-column label="关闭人" prop="publisher"></el-table-column>
+      <el-table-column label="任务标题" prop="tasktitle"></el-table-column>
+      <el-table-column
+        label="希望完成日期"
+        prop="endtime"
+        :formatter="dateFormat"
+      ></el-table-column>
+      <el-table-column label="指派给" prop="srole"></el-table-column>
+      <el-table-column label="创建人" prop="publisher"></el-table-column>
+      <el-table-column label="解决人" prop="resolver"></el-table-column>
+      <el-table-column label="关闭人" prop="closeperson"></el-table-column>
     </el-table>
 
     <!--分页区域-->
@@ -51,6 +55,24 @@ export default {
     this.getSolveList();
   },
   methods: {
+    //表格中修改时间格式
+    dateFormat(row, column, cellValue, index) {
+      const daterc = row[column.property];
+      if (daterc != null) {
+        const dateMat = new Date(
+          parseInt(daterc.replace("/Date(", "").replace(")/", ""), 10)
+        );
+        const year = dateMat.getFullYear();
+        const month = dateMat.getMonth() + 1;
+        const day = dateMat.getDate();
+        const hh = dateMat.getHours();
+        const mm = dateMat.getMinutes();
+        const ss = dateMat.getSeconds();
+        const timeFormat =
+          year + "-" + month + "-" + day + " " + hh + ":" + mm + ":" + ss;
+        return timeFormat;
+      }
+    },
     //监听 页码值 改变的事件
     handleCurrentChange(newPage) {
       this.pagenum = newPage;

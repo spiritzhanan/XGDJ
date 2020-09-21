@@ -75,7 +75,11 @@
       ></el-table-column>
       <el-table-column label="发布人" prop="publisher"></el-table-column>
       <el-table-column label="所属学院" prop="college"></el-table-column>
-      <el-table-column label="发布时间 " prop="vtime"></el-table-column>
+      <el-table-column
+        label="发布时间 "
+        prop="vtime"
+        :formatter="dateFormat"
+      ></el-table-column>
       <el-table-column label="任务状态 " prop="vstate"></el-table-column>
       <el-table-column label="操作" prop=""></el-table-column>
     </el-table>
@@ -120,6 +124,24 @@ export default {
     this.getTaskManage();
   },
   methods: {
+    //表格中修改时间格式
+    dateFormat(row, column, cellValue, index) {
+      const daterc = row[column.property];
+      if (daterc != null) {
+        const dateMat = new Date(
+          parseInt(daterc.replace("/Date(", "").replace(")/", ""), 10)
+        );
+        const year = dateMat.getFullYear();
+        const month = dateMat.getMonth() + 1;
+        const day = dateMat.getDate();
+        const hh = dateMat.getHours();
+        const mm = dateMat.getMinutes();
+        const ss = dateMat.getSeconds();
+        const timeFormat =
+          year + "-" + month + "-" + day + " " + hh + ":" + mm + ":" + ss;
+        return timeFormat;
+      }
+    },
     async getTaskManage() {
       const { data: res } = await this.$http.get("/Volunteer/findBySearch", {
         params: this.queryInfo
