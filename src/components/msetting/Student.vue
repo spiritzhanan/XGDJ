@@ -6,38 +6,48 @@
       <el-breadcrumb-item>系统管理</el-breadcrumb-item>
       <el-breadcrumb-item>学生名单</el-breadcrumb-item>
     </el-breadcrumb>
-    <!--查询输入框-->
-    <el-form>
-      用户名称<el-input
-        placeholder="请输入内容"
-        suffix-icon="el-icon-date"
-        v-model="input1"
-      >
-      </el-input>
-      微信昵称<el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+    <!--卡片区域-->
+    <el-card>
+      <!--查询输入框-->
+      <el-form class="query">
+        <el-input
+          placeholder="请输入学生学号"
+          clearable
+          v-model="queryInfo.tasktitle"
+        ></el-input>
+        <el-select v-model="queryInfo.college" clearable placeholder="请选班级">
+          <el-option label="信息工程学院" value="信息工程学院"></el-option>
+          <el-option label="药学院" value="药学院"></el-option>
+          <el-option label="人文社科学院" value="人文社科学院"></el-option>
+          <el-option label="第一临床学院" value="第一临床学院"></el-option>
+          <el-option label="护理学院" value="护理学院"></el-option>
+          <el-option label="康复学院" value="康复学院"></el-option>
+          <el-option label="基础医学院" value="基础医学院"></el-option>
+          <el-option label="马克思学院" value="马克思学院"></el-option>
+          <el-option label="外国语学院" value="外国语学院"></el-option>
+          <el-option label="赣南医学院" value="赣南医学院"></el-option>
+        </el-select>
+        <el-select v-model="queryInfo.srole" clearable placeholder="请选择身份">
+          <el-option label="普通群众" value="普通群众"></el-option>
+          <el-option label="入党申请人" value="入党申请人"></el-option>
+          <el-option label="入党积极分子" value="入党积极分子"></el-option>
+          <el-option label="发展对象" value="发展对象"></el-option>
+          <el-option label="预备党员" value="预备党员"></el-option>
+          <el-option label="正式党员" value="正式党员"></el-option>
+          <el-option label="管理员" value="管理员"></el-option>
+        </el-select>
+        <el-input
+          placeholder="请输入电话"
+          clearable
+          v-model="queryInfo.publisher"
         >
-        </el-option>
-      </el-select>
-      所属学院
-      <el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      电话号码<el-input placeholder="请输入内容" v-model="input4"> </el-input>
-      <el-button type="primary">查询</el-button>
-    </el-form>
-    <el-button type="primary">新增</el-button>
-    <el-button type="danger">删除</el-button>
+        </el-input>
+        <el-button type="primary">查询</el-button>
+      </el-form>
+      <el-button type="primary">新增</el-button>
+      <el-button type="danger">删除</el-button>
+    </el-card>
+
     <!--用户列表区域-->
     <el-table :data="taskLists" border stripe>
       <el-table-column type="selection" width="55"> </el-table-column>
@@ -59,33 +69,27 @@
 export default {
   data() {
     return {
-      input1: "",
-      input4: "",
       taskLists: [],
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
-      value: "",
-      token: ""
+      queryInfo: {
+        tasktitle: "",
+        college: "",
+        publisher: "",
+        srole: ""
+      }
     };
   }
 };
 </script>
 
 <style lang="less" scoped>
-.el-input {
-  width: 120px;
-  margin: 10px;
-}
-.el-select {
-  width: 120px;
-  margin: 10px;
+.query {
+  .el-input {
+    width: 200px;
+    margin: 10px;
+  }
+  .el-select {
+    width: 200px;
+    margin: 10px;
+  }
 }
 </style>

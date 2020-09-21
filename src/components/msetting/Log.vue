@@ -6,47 +6,51 @@
       <el-breadcrumb-item>系统管理</el-breadcrumb-item>
       <el-breadcrumb-item>日志管理</el-breadcrumb-item>
     </el-breadcrumb>
-    <!--查询输入框-->
-    <el-form>
-      程序名称<el-input
-        placeholder="请输入内容"
-        suffix-icon="el-icon-date"
-        v-model="input1"
-      >
-      </el-input>
-      单据编号<el-input
-        placeholder="请输入内容"
-        suffix-icon="el-icon-date"
-        v-model="input1"
-      >
-      </el-input>
-      用户名称<el-input
-        placeholder="请输入内容"
-        suffix-icon="el-icon-date"
-        v-model="input1"
-      ></el-input>
+    <!--卡片区域-->
+    <el-card>
+      <!--查询输入框-->
+      <el-form class="query">
+        <el-row>
+          <el-col :span="22">
+            <el-input
+              placeholder="请输入程序名称"
+              clearable
+              v-model="queryInfo.snumber"
+            ></el-input
+            ><el-input
+              placeholder="请输入单据编号"
+              clearable
+              v-model="queryInfo.snumber"
+            ></el-input>
 
-      日期起<el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      日期至
-      <el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      <el-button type="primary">查询</el-button>
-    </el-form>
+            <el-input
+              placeholder="请输入动作名称"
+              clearable
+              v-model="queryInfo.snumber"
+            >
+            </el-input>
+            <el-input
+              placeholder="请输入用户名称"
+              clearable
+              v-model="queryInfo.snumber"
+            ></el-input>
+            <el-date-picker
+              type="datetime"
+              placeholder="请选择希望完成日期时间"
+              v-model="queryInfo.snumber"
+            ></el-date-picker>
+            <el-date-picker
+              type="datetime"
+              placeholder="请选择希望完成日期时间"
+              v-model="queryInfo.snumber"
+            ></el-date-picker>
+          </el-col>
+          <el-col :span="2">
+            <el-button type="primary">查询</el-button>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-card>
 
     <!--用户列表区域-->
     <el-table :data="taskLists" border stripe>
@@ -64,33 +68,21 @@
 export default {
   data() {
     return {
-      input1: "",
-      input4: "",
       taskLists: [],
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ],
-      value: "",
-      token: ""
+      queryInfo: {
+        snumber: ""
+      }
     };
   }
 };
 </script>
 
 <style lang="less" scoped>
-.el-input {
-  width: 120px;
-  margin: 10px;
-}
-.el-select {
-  width: 120px;
-  margin: 10px;
+.query {
+  .el-input,
+  .el-date-picker {
+    width: 250px;
+    margin: 10px;
+  }
 }
 </style>

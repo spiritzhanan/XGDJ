@@ -15,11 +15,10 @@
           clearable
           v-model="queryInfo.tasktitle"
         ></el-input>
-        <el-input
-          placeholder="请输入访客IP"
-          clearable
-          v-model="queryInfo.tasktitle"
-        ></el-input>
+        <el-select v-model="queryInfo.state">
+          <el-option label="显示" value="显示"></el-option>
+          <el-option label="隐藏" value="隐藏"></el-option>
+        </el-select>
 
         <el-input
           placeholder="请输入起始日期"
