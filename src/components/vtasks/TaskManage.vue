@@ -15,7 +15,7 @@
             <el-input
               placeholder="请输入志愿名"
               clearable
-              v-model="queryInfo.tasktitle"
+              v-model="queryInfo.volunteername"
             ></el-input>
             <el-input
               placeholder="请输入报名联系人"
@@ -41,7 +41,7 @@
             </el-select>
 
             <el-select
-              v-model="queryInfo.state"
+              v-model="queryInfo.vstate"
               clearable
               placeholder="请选择任务状态"
             >
@@ -50,11 +50,11 @@
               <el-option label="进行中" value="进行中"></el-option>
               <el-option label="已结束" value="已结束"></el-option>
             </el-select>
-            <el-button type="primary" @click="">查询</el-button>
+            <el-button type="primary"  @click="getTaskManage">查询</el-button>
           </el-form>
         </el-col>
         <el-col :span="4" class="btns">
-          <el-button type="success" @click="">新增</el-button>
+          <el-button type="success" @click="addtaskmanage">新增</el-button>
           <el-button type="info">删除</el-button>
         </el-col>
       </el-row>
@@ -67,7 +67,7 @@
       <!--  <el-table-column label="志愿时长" prop=""></el-table-column>-->
       <el-table-column label="所需人数" prop="neednum"></el-table-column>
       <el-table-column label="报名人数 " prop="applicantsnum"></el-table-column>
-      <!--  <el-table-column label="报名联系人" prop="number"></el-table-column>-->
+       <el-table-column label="报名联系人" prop=""></el-table-column>
       <el-table-column
         label="报名联系电话 "
         width="100"
@@ -78,7 +78,7 @@
       <el-table-column
         label="发布时间 "
         prop="vtime"
-        :formatter="dateFormat"
+
       ></el-table-column>
       <el-table-column label="任务状态 " prop="vstate"></el-table-column>
       <el-table-column label="操作" prop=""></el-table-column>
@@ -92,6 +92,88 @@
       :total="total"
     >
     </el-pagination>
+
+    <!--新增对话框-->
+    <el-dialog
+            title="新增"
+            :visible.sync="addDialogVisible"
+            width="50%"
+            @close="addDialogClosed"
+    >
+      <el-form :model="addTaskmanage" ref="addTaskmanageRef" label-width="100px">
+        <el-form-item label="志愿名">
+          <el-input v-model="addTaskmanage.volunteername" clearable></el-input>
+        </el-form-item>
+      <!--  <el-form-item label="志愿内容">
+          <el-input v-model="" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="出发集合地点">
+          <el-input
+                  v-model=""
+                  clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="出发集合时间">
+          <el-date-picker
+                  type="date"
+                  v-model=""
+                  style="width: 100%;"
+                  clearable
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="志愿地点:">
+          <el-input
+                  v-model=""
+                  clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="志愿时长">
+          <el-input
+                  v-model=""
+                  clearable
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="报名结束时间">
+          <el-date-picker
+                  type="date"
+                  v-model=""
+                  style="width: 100%;"
+                  clearable
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="任务开始时间">
+          <el-date-picker
+                  type="date"
+                  v-model="addTaskmanage.vtime"
+                  style="width: 100%;"
+                  clearable
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="任务结束时间">
+          <el-date-picker
+                  type="date"
+                  v-model=""
+                  style="width: 100%;"
+                  clearable
+          ></el-date-picker>
+        </el-form-item>-->
+        <el-form-item label="所需人数">
+          <el-input v-model="addTaskmanage.neednum" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="报名联系人">
+          <el-input v-model="addTaskmanage.publisher" clearable></el-input>
+        </el-form-item>
+        <el-form-item label=" 报名联系电话">
+          <el-input v-model="addTaskmanage.cphone" clearable></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addTaskMan">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -109,14 +191,21 @@ export default {
         college: "",
         vtime: "",
         vstate: "",
-        query: "",
         //当前页码数
         pagenum: 1,
         //每页展示数
-        pagesize: 6
+        pagesize: 5
+      },
+      addTaskmanage:{
+        volunteername:"",
+        vtime: "",
+        neednum: "",
+        cphone:"",
+        publisher: "",
       },
       taskManage: [],
-      total: 0
+      total: 0,
+      addDialogVisible: false
     };
   },
 
@@ -124,7 +213,7 @@ export default {
     this.getTaskManage();
   },
   methods: {
-    //表格中修改时间格式
+   /* //表格中修改时间格式
     dateFormat(row, column, cellValue, index) {
       const daterc = row[column.property];
       if (daterc != null) {
@@ -141,10 +230,16 @@ export default {
           year + "-" + month + "-" + day + " " + hh + ":" + mm + ":" + ss;
         return timeFormat;
       }
-    },
+    },*/
     async getTaskManage() {
-      const { data: res } = await this.$http.get("/Volunteer/findBySearch", {
-        params: this.queryInfo
+      const { data: res } = await this.$http.get("/Volunteer/findBySearch",  {
+        params:{
+          volunteername: this.queryInfo.volunteername,
+          college: this.queryInfo.college,
+          vstate: this.queryInfo.vstate,
+          pageNum: this.queryInfo.pagenum,
+          pageSize: this.queryInfo.pagesize,
+        }
       });
       if (res.code !== 200) {
         this.$message.info("获取数据失败");
@@ -152,6 +247,31 @@ export default {
       console.log(res);
       this.total = res.data.total;
       this.taskManage = res.data.list;
+    },
+    //监听 页码值 改变的事件
+    handleCurrentChange(newPage) {
+      this.queryInfo.pagenum = newPage;
+      this.getTaskManage();
+    },
+    //监听添加对话框的关闭事件
+    addDialogClosed() {
+      this.addTaskmanage = {};
+    },
+    addtaskmanage() {
+      this.addDialogVisible = true;
+    },
+    async addTaskMan() {
+      const { data: res } = await this.$http.post(
+              "/Volunteer/addVolunteer",
+              this.addTaskmanage
+      );
+      if (res.code !== "200") {
+        this.$message.error("任务添加失败");
+      }
+      this.$message.success("任务添加成功");
+      this.getTaskManage();
+      //隐藏添加用户对话框
+      this.addDialogVisible = false;
     }
   }
 };

@@ -45,7 +45,7 @@
         >
           <el-submenu index="1">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-s-promotion"></i>
               <span>待办事项</span>
             </template>
             <el-menu-item-group>
@@ -57,7 +57,7 @@
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-user-solid"></i>
               <span>学子成长</span>
             </template>
             <el-menu-item-group>
@@ -67,7 +67,7 @@
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-s-flag"></i>
               <span>志愿任务</span>
             </template>
             <el-menu-item-group>
@@ -77,7 +77,7 @@
           </el-submenu>
           <el-submenu index="4">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-s-claim"></i>
               <span>成长履历</span>
             </template>
             <el-menu-item-group>
@@ -86,7 +86,7 @@
           </el-submenu>
           <el-submenu index="5">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-s-tools"></i>
               <span>网页管理</span>
             </template>
             <el-menu-item-group>
@@ -99,7 +99,7 @@
           </el-submenu>
           <el-submenu index="6">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-s-cooperation"></i>
               <span>管理报表</span>
             </template>
             <el-menu-item-group>
@@ -108,7 +108,7 @@
           </el-submenu>
           <el-submenu index="7">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-s-help"></i>
               <span>系统管理</span>
             </template>
             <el-menu-item-group>

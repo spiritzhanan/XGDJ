@@ -11,14 +11,14 @@
     <el-card>
       <!--查询输入框-->
       <el-row>
-        <el-col :span="20">
+        <el-col :span="19">
           <el-form class="query">
             <el-input
               placeholder="请输入任务名"
               clearable
               v-model="queryInfo.tasktitle"
             ></el-input>
-            <el-select
+           <!-- <el-select
               v-model="queryInfo.srole"
               clearable
               placeholder="请选择任务对象"
@@ -30,7 +30,7 @@
               <el-option label="预备党员" value="预备党员"></el-option>
               <el-option label="正式党员" value="正式党员"></el-option>
               <el-option label="管理员" value="管理员"></el-option>
-            </el-select>
+            </el-select>-->
             <el-input
               placeholder="请输入发布人"
               clearable
@@ -48,8 +48,8 @@
             <el-button type="primary" @click="getTaskList">查询</el-button>
           </el-form>
         </el-col>
-        <el-col :span="4">
-          <el-button type="success" @click="publishTask">发布</el-button>
+        <el-col :span="5">
+          <el-button type="success" @click="publishTask">发布任务</el-button>
           <el-button type="info">删除</el-button>
         </el-col>
       </el-row>
@@ -61,17 +61,15 @@
       <el-table-column label="任务编号" prop="number"></el-table-column>
       <el-table-column label="任务类型" prop="tasktype"></el-table-column>
       <el-table-column label="任务名" prop="tasktitle"></el-table-column>
-      <el-table-column label="任务对象" prop="srole"></el-table-column>
+     <!-- <el-table-column label="任务对象" prop="srole"></el-table-column>-->
       <el-table-column
         label="任务开始时间"
         prop="starttime"
-        :formatter="dateFormat"
         width="90"
       ></el-table-column>
       <el-table-column
         label="任务结束时间"
         prop="endtime"
-        :formatter="dateFormat"
         width="90"
       ></el-table-column>
       <el-table-column label="发布人" prop="publisher"></el-table-column>
@@ -90,7 +88,7 @@
     <!--分页区域-->
     <el-pagination
       @current-change="handleCurrentChange"
-      :current-page="queryInfo.pageNum"
+      :current-page="queryInfo.pagenum"
       :page-size="queryInfo.pageSize"
       layout="total,prev, pager, next,jumper"
       :total="total"
@@ -134,7 +132,7 @@
         </el-form-item>
         <el-form-item label="任务开始时间">
           <el-date-picker
-            type="datetime"
+            type="date"
             v-model="addForm.starttime"
             style="width: 100%;"
             clearable
@@ -142,7 +140,7 @@
         </el-form-item>
         <el-form-item label="任务结束时间">
           <el-date-picker
-            type="datetime"
+            type="date"
             v-model="addForm.endtime"
             style="width: 100%;"
             clearable
@@ -171,15 +169,20 @@ export default {
   data() {
     return {
       queryInfo: {
+        number:"",
+        tasktype:"",
         tasktitle: "",
-        srole: "",
+       /* srole: "",*/
+        starttime:"",
+        endtime:"",
         publisher: "",
-        state: ""
+        releasetime:"",
+        state: "",
+        //当前页码数
+        pagenum: 1,
+        //每页展示数
+        pageSize: 5,
       },
-      //当前页码数
-      pageNum: 1,
-      //每页展示数
-      pageSize: 5,
       taskLists: [],
       addForm: {
         tasktype: "",
@@ -200,33 +203,14 @@ export default {
     this.getTaskList();
   },
   methods: {
-    //表格中修改时间格式
-    dateFormat(row, column, cellValue, index) {
-      const daterc = row[column.property];
-      if (daterc != null) {
-        const dateMat = new Date(
-          parseInt(daterc.replace("/Date(", "").replace(")/", ""), 10)
-        );
-        const year = dateMat.getFullYear();
-        const month = dateMat.getMonth() + 1;
-        const day = dateMat.getDate();
-        const hh = dateMat.getHours();
-        const mm = dateMat.getMinutes();
-        const ss = dateMat.getSeconds();
-        const timeFormat =
-          year + "-" + month + "-" + day + " " + hh + ":" + mm + ":" + ss;
-        return timeFormat;
-      }
-    },
     async getTaskList() {
       const { data: res } = await this.$http.get("/Task/getTaskBySearch", {
         params: {
           tasktitle: this.queryInfo.tasktitle,
-          srole: this.queryInfo.srole,
           publisher: this.queryInfo.publisher,
           state: this.queryInfo.state,
-          pageNum: this.pageNum,
-          pageSize: this.pageSize
+          pageNum: this.queryInfo.pagenum,
+          pageSize: this.queryInfo.pageSize,
         }
       });
       if (res.code !== 200) {
@@ -242,7 +226,7 @@ export default {
     },
     //监听 页码值 改变的事件
     handleCurrentChange(newPage) {
-      this.pageNum = newPage;
+      this.queryInfo.pagenum = newPage;
       this.getTaskList();
     },
     publishTask() {
