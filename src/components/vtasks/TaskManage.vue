@@ -264,7 +264,7 @@ export default {
         "/Volunteer/addVolunteer",
         this.addTaskmanage
       );
-      if (res.code !== "200") {
+      if (res.code !== 200) {
         this.$message.error("任务添加失败");
       }
       this.$message.success("任务添加成功");
