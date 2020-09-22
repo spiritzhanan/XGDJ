@@ -46,11 +46,16 @@
         <el-button type="primary" @click="getTaskList">查询</el-button>
       </el-form>
       <el-button type="success" @click="publishTask">发布任务</el-button>
-      <el-button type="info">删除</el-button>
+      <el-button type="info" @click="delAll">删除</el-button>
     </el-card>
 
     <!--用户列表区域-->
-    <el-table :data="taskLists" border stripe>
+    <el-table
+      :data="taskLists"
+      @selection-change="handleSelectionChange"
+      border
+      stripe
+    >
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column label="任务编号" prop="number"></el-table-column>
       <el-table-column label="任务类型" prop="tasktype"></el-table-column>
@@ -162,6 +167,7 @@
 export default {
   data() {
     return {
+      multipleSelection: [], //勾选的id
       queryInfo: {
         tasktitle: "",
         srole: "",
@@ -192,6 +198,48 @@ export default {
     this.getTaskList();
   },
   methods: {
+    /*全选*/
+    handleSelectionChange(val) {
+      console.log(val);
+      this.multipleSelection = val;
+    },
+    delAll() {
+      // 批量删除
+      if (this.multipleSelection.length == 0) {
+        this.$message({
+          type: "error",
+          message: "请先勾选需要删除的数据"
+        });
+      } else {
+        this.$confirm("删除此数据, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "error"
+        })
+          .then(async () => {
+            const del = this.multipleSelection;
+            let newArray = [];
+            for (let i = 0; i < del.length; i++) {
+              const delId = del[i].tid;
+              newArray.push(delId);
+            }
+            let delArray = {
+              tids: newArray.join("-")
+            };
+            const { data: res } = await this.$http.delete("/Task/deleteTask", {
+              params: delArray
+            });
+            if (res.code !== 200) {
+              this.$message.error("删除失败!");
+            }
+            this.$message.success("删除成功！");
+            this.getTaskList();
+          })
+          .catch(() => {
+            this.$message.error("已取消删除");
+          });
+      }
+    },
     async getTaskList() {
       const { data: res } = await this.$http.get("/Task/getTaskBySearch", {
         params: {
