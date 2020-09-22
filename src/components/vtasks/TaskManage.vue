@@ -50,7 +50,7 @@
               <el-option label="进行中" value="进行中"></el-option>
               <el-option label="已结束" value="已结束"></el-option>
             </el-select>
-            <el-button type="primary"  @click="getTaskManage">查询</el-button>
+            <el-button type="primary" @click="getTaskManage">查询</el-button>
           </el-form>
         </el-col>
         <el-col :span="4" class="btns">
@@ -67,7 +67,7 @@
       <!--  <el-table-column label="志愿时长" prop=""></el-table-column>-->
       <el-table-column label="所需人数" prop="neednum"></el-table-column>
       <el-table-column label="报名人数 " prop="applicantsnum"></el-table-column>
-       <el-table-column label="报名联系人" prop=""></el-table-column>
+      <el-table-column label="报名联系人" prop=""></el-table-column>
       <el-table-column
         label="报名联系电话 "
         width="100"
@@ -75,11 +75,7 @@
       ></el-table-column>
       <el-table-column label="发布人" prop="publisher"></el-table-column>
       <el-table-column label="所属学院" prop="college"></el-table-column>
-      <el-table-column
-        label="发布时间 "
-        prop="vtime"
-
-      ></el-table-column>
+      <el-table-column label="发布时间 " prop="vtime"></el-table-column>
       <el-table-column label="任务状态 " prop="vstate"></el-table-column>
       <el-table-column label="操作" prop=""></el-table-column>
     </el-table>
@@ -95,16 +91,20 @@
 
     <!--新增对话框-->
     <el-dialog
-            title="新增"
-            :visible.sync="addDialogVisible"
-            width="50%"
-            @close="addDialogClosed"
+      title="新增"
+      :visible.sync="addDialogVisible"
+      width="50%"
+      @close="addDialogClosed"
     >
-      <el-form :model="addTaskmanage" ref="addTaskmanageRef" label-width="100px">
+      <el-form
+        :model="addTaskmanage"
+        ref="addTaskmanageRef"
+        label-width="100px"
+      >
         <el-form-item label="志愿名">
           <el-input v-model="addTaskmanage.volunteername" clearable></el-input>
         </el-form-item>
-      <!--  <el-form-item label="志愿内容">
+        <!--  <el-form-item label="志愿内容">
           <el-input v-model="" clearable></el-input>
         </el-form-item>
         <el-form-item label="出发集合地点">
@@ -173,7 +173,6 @@
         <el-button type="primary" @click="addTaskMan">确 定</el-button>
       </span>
     </el-dialog>
-
   </div>
 </template>
 
@@ -196,12 +195,12 @@ export default {
         //每页展示数
         pagesize: 5
       },
-      addTaskmanage:{
-        volunteername:"",
+      addTaskmanage: {
+        volunteername: "",
         vtime: "",
         neednum: "",
-        cphone:"",
-        publisher: "",
+        cphone: "",
+        publisher: ""
       },
       taskManage: [],
       total: 0,
@@ -213,7 +212,7 @@ export default {
     this.getTaskManage();
   },
   methods: {
-   /* //表格中修改时间格式
+    /* //表格中修改时间格式
     dateFormat(row, column, cellValue, index) {
       const daterc = row[column.property];
       if (daterc != null) {
@@ -232,13 +231,13 @@ export default {
       }
     },*/
     async getTaskManage() {
-      const { data: res } = await this.$http.get("/Volunteer/findBySearch",  {
-        params:{
+      const { data: res } = await this.$http.get("/Volunteer/findBySearch", {
+        params: {
           volunteername: this.queryInfo.volunteername,
           college: this.queryInfo.college,
           vstate: this.queryInfo.vstate,
           pageNum: this.queryInfo.pagenum,
-          pageSize: this.queryInfo.pagesize,
+          pageSize: this.queryInfo.pagesize
         }
       });
       if (res.code !== 200) {
@@ -262,8 +261,8 @@ export default {
     },
     async addTaskMan() {
       const { data: res } = await this.$http.post(
-              "/Volunteer/addVolunteer",
-              this.addTaskmanage
+        "/Volunteer/addVolunteer",
+        this.addTaskmanage
       );
       if (res.code !== "200") {
         this.$message.error("任务添加失败");

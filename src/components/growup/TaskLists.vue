@@ -10,49 +10,43 @@
     <!--卡片区域-->
     <el-card>
       <!--查询输入框-->
-      <el-row>
-        <el-col :span="19">
-          <el-form class="query">
-            <el-input
-              placeholder="请输入任务名"
-              clearable
-              v-model="queryInfo.tasktitle"
-            ></el-input>
-           <!-- <el-select
-              v-model="queryInfo.srole"
-              clearable
-              placeholder="请选择任务对象"
-            >
-              <el-option label="普通群众" value="普通群众"></el-option>
-              <el-option label="入党申请人" value="入党申请人"></el-option>
-              <el-option label="入党积极分子" value="入党积极分子"></el-option>
-              <el-option label="发展对象" value="发展对象"></el-option>
-              <el-option label="预备党员" value="预备党员"></el-option>
-              <el-option label="正式党员" value="正式党员"></el-option>
-              <el-option label="管理员" value="管理员"></el-option>
-            </el-select>-->
-            <el-input
-              placeholder="请输入发布人"
-              clearable
-              v-model="queryInfo.publisher"
-            >
-            </el-input>
-            <el-select
-              v-model="queryInfo.state"
-              clearable
-              placeholder="请选择任务状态"
-            >
-              <el-option label="显示" value="显示"></el-option>
-              <el-option label="隐藏" value="隐藏"></el-option>
-            </el-select>
-            <el-button type="primary" @click="getTaskList">查询</el-button>
-          </el-form>
-        </el-col>
-        <el-col :span="5">
-          <el-button type="success" @click="publishTask">发布任务</el-button>
-          <el-button type="info">删除</el-button>
-        </el-col>
-      </el-row>
+      <el-form class="query">
+        <el-input
+          placeholder="请输入任务名"
+          clearable
+          v-model="queryInfo.tasktitle"
+        ></el-input>
+        <el-select
+          v-model="queryInfo.srole"
+          clearable
+          placeholder="请选择任务对象"
+        >
+          <el-option label="普通群众" value="普通群众"></el-option>
+          <el-option label="入党申请人" value="入党申请人"></el-option>
+          <el-option label="入党积极分子" value="入党积极分子"></el-option>
+          <el-option label="发展对象" value="发展对象"></el-option>
+          <el-option label="预备党员" value="预备党员"></el-option>
+          <el-option label="正式党员" value="正式党员"></el-option>
+          <el-option label="管理员" value="管理员"></el-option>
+        </el-select>
+        <el-input
+          placeholder="请输入发布人"
+          clearable
+          v-model="queryInfo.publisher"
+        >
+        </el-input>
+        <el-select
+          v-model="queryInfo.state"
+          clearable
+          placeholder="请选择任务状态"
+        >
+          <el-option label="显示" value="显示"></el-option>
+          <el-option label="隐藏" value="隐藏"></el-option>
+        </el-select>
+        <el-button type="primary" @click="getTaskList">查询</el-button>
+      </el-form>
+      <el-button type="success" @click="publishTask">发布任务</el-button>
+      <el-button type="info">删除</el-button>
     </el-card>
 
     <!--用户列表区域-->
@@ -61,7 +55,7 @@
       <el-table-column label="任务编号" prop="number"></el-table-column>
       <el-table-column label="任务类型" prop="tasktype"></el-table-column>
       <el-table-column label="任务名" prop="tasktitle"></el-table-column>
-     <!-- <el-table-column label="任务对象" prop="srole"></el-table-column>-->
+      <el-table-column label="任务对象" prop="srole"></el-table-column>
       <el-table-column
         label="任务开始时间"
         prop="starttime"
@@ -169,19 +163,14 @@ export default {
   data() {
     return {
       queryInfo: {
-        number:"",
-        tasktype:"",
         tasktitle: "",
-       /* srole: "",*/
-        starttime:"",
-        endtime:"",
+        srole: "",
         publisher: "",
-        releasetime:"",
         state: "",
         //当前页码数
         pagenum: 1,
         //每页展示数
-        pageSize: 5,
+        pageSize: 5
       },
       taskLists: [],
       addForm: {
@@ -209,8 +198,9 @@ export default {
           tasktitle: this.queryInfo.tasktitle,
           publisher: this.queryInfo.publisher,
           state: this.queryInfo.state,
+          srole: this.queryInfo.srole,
           pageNum: this.queryInfo.pagenum,
-          pageSize: this.queryInfo.pageSize,
+          pageSize: this.queryInfo.pageSize
         }
       });
       if (res.code !== 200) {
@@ -253,11 +243,11 @@ export default {
 <style lang="less" scoped>
 .query {
   .el-input {
-    width: 160px;
+    width: 200px;
     margin: 5px;
   }
   .el-select {
-    width: 160px;
+    width: 200px;
     margin: 10px;
   }
 }
