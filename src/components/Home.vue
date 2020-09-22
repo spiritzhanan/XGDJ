@@ -3,7 +3,8 @@
     <el-header>
       <div class="header">
         <!-- 折叠按钮 -->
-        <div class="logo">信工党建</div>
+
+        <div class="logo"><i class="el-icon-s-home"></i>信工党建</div>
         <div class="header-right">
           <div class="header-user-con">
             <!-- 用户头像 -->
@@ -220,8 +221,7 @@ export default {
   line-height: 70px;
 }
 .header .logo {
-  float: left;
-  width: 250px;
+  margin-left: 10px;
   line-height: 70px;
 }
 .header-right {

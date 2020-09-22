@@ -36,10 +36,9 @@
         <el-button type="primary" @click="">查询</el-button>
       </el-form>
 
-      <el-button type="success">新增</el-button>
-      <el-button type="info">删除</el-button>
-      <el-button type="danger">已完成</el-button>
-      <el-button type="danger">缺席</el-button>
+      <el-button type="info">返回</el-button>
+      <el-button type="info">已完成</el-button>
+      <el-button type="info">缺席</el-button>
     </el-card>
 
     <!--用户列表区域-->
