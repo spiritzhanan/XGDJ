@@ -144,7 +144,8 @@ export default {
           number: this.loginForm.username,
           password: this.loginForm.password
         });
-        if (res.code !== 200) return this.$message.error("登录失败");
+        if (res.code !== 200)
+          return this.$message.error("登录失败，请检查你的密码和验证码");
         this.$message.success("登录成功");
         window.sessionStorage.setItem("token", res.data.token);
         window.sessionStorage.setItem("adminid", res.data.admin.id);

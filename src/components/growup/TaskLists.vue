@@ -211,7 +211,7 @@ export default {
           message: "请先勾选需要删除的数据"
         });
       } else {
-        this.$confirm("删除此数据, 是否继续?", "提示", {
+        this.$confirm("是否删除选中数据?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "error"

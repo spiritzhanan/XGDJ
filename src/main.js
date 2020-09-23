@@ -4,9 +4,11 @@ import router from "./router";
 import "./plugins/element.js";
 import "./assets/css/global.css";
 import axios from "axios";
+import qs from "qs";
 
 Vue.config.productionTip = false;
 
+Vue.prototype.$qs = qs;
 axios.defaults.baseURL = "http://39.99.142.199:8083";
 axios.interceptors.request.use(config => {
   config.headers.token = window.sessionStorage.getItem("token");

@@ -152,7 +152,6 @@ export default {
       const { data: res } = await this.$http.get("/User/findUserBySearch", {
         params: this.queryInfo
       });
-      console.log(res);
       if (res.code !== 200) {
         this.$message.info("获取数据失败");
       }

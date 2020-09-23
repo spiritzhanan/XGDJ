@@ -24,11 +24,7 @@
       <el-table-column label="任务状态" prop="state"></el-table-column>
       <el-table-column label="任务类型" prop="tasktype"></el-table-column>
       <el-table-column label="任务标题" prop="tasktitle"></el-table-column>
-      <el-table-column
-        label="希望完成日期"
-        prop="endtime"
-        :formatter="dateFormat"
-      ></el-table-column>
+      <el-table-column label="希望完成日期" prop="endtime"></el-table-column>
       <el-table-column label="指派给" prop="srole"></el-table-column>
       <el-table-column label="创建人" prop="role"></el-table-column>
       <el-table-column label="解决人" prop="resolver"></el-table-column>
@@ -74,7 +70,7 @@
           <el-date-picker
             type="datetime"
             placeholder="请选择希望完成日期时间"
-            v-model="addForm.examinetime"
+            v-model="addForm.endtime"
             style="width: 100%;"
           ></el-date-picker>
         </el-form-item>
@@ -108,8 +104,11 @@ export default {
         tasktype: "",
         tasktitle: "",
         srole: "",
-        examinetime: "",
-        taskcontent: ""
+        endtime: "",
+        taskcontent: "",
+        publisher: "管理员",
+        resolver: "管理员",
+        closeperson: "管理员"
       },
       id: "",
       rules: {
@@ -124,25 +123,6 @@ export default {
     this.getCreateLists();
   },
   methods: {
-    //表格中修改时间格式
-    dateFormat(row, column, cellValue, index) {
-      const daterc = row[column.property];
-      if (daterc != null) {
-        const dateMat = new Date(
-          parseInt(daterc.replace("/Date(", "").replace(")/", ""), 10)
-        );
-        const year = dateMat.getFullYear();
-        const month = dateMat.getMonth() + 1;
-        const day = dateMat.getDate();
-        const hh = dateMat.getHours();
-        const mm = dateMat.getMinutes();
-        const ss = dateMat.getSeconds();
-        const timeFormat =
-          year + "-" + month + "-" + day + " " + hh + ":" + mm + ":" + ss;
-        return timeFormat;
-      }
-    },
-
     //获取我创建的任务
     async getCreateLists() {
       const { data: res } = await this.$http.get("/Task/myPublish", {
