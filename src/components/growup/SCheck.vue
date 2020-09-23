@@ -103,8 +103,8 @@
     <!--分页区域-->
     <el-pagination
       @current-change="handleCurrentChange"
-      :current-page="queryInfo.pagenum"
-      :page-size="queryInfo.pagesize"
+      :current-page="queryInfo.pageNum"
+      :page-size="queryInfo.pageSize"
       layout="total,prev, pager, next,jumper"
       :total="total"
       background
@@ -132,25 +132,24 @@ export default {
       total: 0
     };
   },
-  watch: {
-    queryInfo: {
-      handler: function(newVal, oldVal) {
-        if (this.queryInfo == null) {
-          console.log(this.queryInfo);
-        } else {
-          console.log(this.queryInfo);
-        }
-      },
-      deep: true
-    }
-  },
   created() {
     this.getCheckList();
   },
   methods: {
     async getCheckList() {
       const { data: res } = await this.$http.get("/User/findUserBySearch", {
-        params: this.queryInfo
+        params: {
+          snumber: this.queryInfo.snumber,
+          college: this.queryInfo.college,
+          srole: this.queryInfo.srole,
+          phone: this.queryInfo.phone,
+          username: this.queryInfo.username,
+          userclass: this.queryInfo.userclass,
+          grade: this.queryInfo.grade,
+          sex: this.queryInfo.sex,
+          pageNum: this.queryInfo.pageNum,
+          pageSize: this.queryInfo.pageSize
+        }
       });
       if (res.code !== 200) {
         this.$message.info("获取数据失败");
@@ -160,7 +159,7 @@ export default {
     },
     //监听 页码值 改变的事件
     handleCurrentChange(newPage) {
-      this.pagenum = newPage;
+      this.queryInfo.pageNum = newPage;
       this.getCheckList();
     }
   }

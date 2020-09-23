@@ -87,7 +87,7 @@
     <!--分页区域-->
     <el-pagination
       @current-change="handleCurrentChange"
-      :current-page="queryInfo.pagenum"
+      :current-page="queryInfo.pageNum"
       :page-size="queryInfo.pageSize"
       layout="total,prev, pager, next,jumper"
       :total="total"
@@ -174,7 +174,7 @@ export default {
         publisher: "",
         state: "",
         //当前页码数
-        pagenum: 1,
+        pageNum: 1,
         //每页展示数
         pageSize: 5
       },
@@ -247,7 +247,7 @@ export default {
           publisher: this.queryInfo.publisher,
           state: this.queryInfo.state,
           srole: this.queryInfo.srole,
-          pageNum: this.queryInfo.pagenum,
+          pageNum: this.queryInfo.pageNum,
           pageSize: this.queryInfo.pageSize
         }
       });
@@ -264,7 +264,7 @@ export default {
     },
     //监听 页码值 改变的事件
     handleCurrentChange(newPage) {
-      this.queryInfo.pagenum = newPage;
+      this.queryInfo.pageNum = newPage;
       this.getTaskList();
     },
     publishTask() {
