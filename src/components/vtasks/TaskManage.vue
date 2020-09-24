@@ -104,60 +104,51 @@
         <el-form-item label="志愿名">
           <el-input v-model="addTaskmanage.volunteername" clearable></el-input>
         </el-form-item>
-        <!--  <el-form-item label="志愿内容">
-          <el-input v-model="" clearable></el-input>
-        </el-form-item>
-        <el-form-item label="出发集合地点">
-          <el-input
-                  v-model=""
-                  clearable
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="出发集合时间">
-          <el-date-picker
-                  type="date"
-                  v-model=""
-                  style="width: 100%;"
-                  clearable
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="志愿地点:">
-          <el-input
-                  v-model=""
-                  clearable
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="志愿时长">
-          <el-input
-                  v-model=""
-                  clearable
-          ></el-input>
-        </el-form-item>
+        <!--        <el-form-item label="志愿内容">-->
+        <!--          <el-input v-model="" clearable></el-input>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="出发集合地点">-->
+        <!--          <el-input v-model="" clearable></el-input>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="出发集合时间">-->
+        <!--          <el-date-picker-->
+        <!--            type="date"-->
+        <!--            v-model=""-->
+        <!--            style="width: 100%;"-->
+        <!--            clearable-->
+        <!--          ></el-date-picker>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="志愿地点:">-->
+        <!--          <el-input v-model="" clearable></el-input>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="志愿时长">-->
+        <!--          <el-input v-model="" clearable></el-input>-->
+        <!--        </el-form-item>-->
 
-        <el-form-item label="报名结束时间">
-          <el-date-picker
-                  type="date"
-                  v-model=""
-                  style="width: 100%;"
-                  clearable
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="任务开始时间">
-          <el-date-picker
-                  type="date"
-                  v-model="addTaskmanage.vtime"
-                  style="width: 100%;"
-                  clearable
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="任务结束时间">
-          <el-date-picker
-                  type="date"
-                  v-model=""
-                  style="width: 100%;"
-                  clearable
-          ></el-date-picker>
-        </el-form-item>-->
+        <!--        <el-form-item label="报名结束时间">-->
+        <!--          <el-date-picker-->
+        <!--            type="date"-->
+        <!--            v-model=""-->
+        <!--            style="width: 100%;"-->
+        <!--            clearable-->
+        <!--          ></el-date-picker>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="任务开始时间">-->
+        <!--          <el-date-picker-->
+        <!--            type="date"-->
+        <!--            v-model="addTaskmanage.vtime"-->
+        <!--            style="width: 100%;"-->
+        <!--            clearable-->
+        <!--          ></el-date-picker>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="任务结束时间">-->
+        <!--          <el-date-picker-->
+        <!--            type="date"-->
+        <!--            v-model=""-->
+        <!--            style="width: 100%;"-->
+        <!--            clearable-->
+        <!--          ></el-date-picker>-->
+        <!--        </el-form-item>-->
         <el-form-item label="所需人数">
           <el-input v-model="addTaskmanage.neednum" clearable></el-input>
         </el-form-item>
@@ -181,14 +172,9 @@ export default {
   data() {
     return {
       queryInfo: {
-        number: "",
         volunteername: "",
-        neednum: "",
-        applicantsnum: "",
-        cphone: "",
         publisher: "",
         college: "",
-        vtime: "",
         vstate: "",
         //当前页码数
         pagenum: 1,
@@ -212,30 +198,13 @@ export default {
     this.getTaskManage();
   },
   methods: {
-    /* //表格中修改时间格式
-    dateFormat(row, column, cellValue, index) {
-      const daterc = row[column.property];
-      if (daterc != null) {
-        const dateMat = new Date(
-          parseInt(daterc.replace("/Date(", "").replace(")/", ""), 10)
-        );
-        const year = dateMat.getFullYear();
-        const month = dateMat.getMonth() + 1;
-        const day = dateMat.getDate();
-        const hh = dateMat.getHours();
-        const mm = dateMat.getMinutes();
-        const ss = dateMat.getSeconds();
-        const timeFormat =
-          year + "-" + month + "-" + day + " " + hh + ":" + mm + ":" + ss;
-        return timeFormat;
-      }
-    },*/
     async getTaskManage() {
-      const { data: res } = await this.$http.get("/Volunteer/findBySearch", {
+      const { data: res } = await this.$http.get("/Volunteer/findVoluByLike", {
         params: {
           volunteername: this.queryInfo.volunteername,
           college: this.queryInfo.college,
           vstate: this.queryInfo.vstate,
+          publisher: this.queryInfo.publisher,
           pageNum: this.queryInfo.pagenum,
           pageSize: this.queryInfo.pagesize
         }

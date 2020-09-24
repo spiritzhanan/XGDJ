@@ -71,6 +71,7 @@
             type="datetime"
             placeholder="请选择希望完成日期时间"
             v-model="addForm.endtime"
+            value-format="yyyy-MM-dd HH:mm:ss"
             style="width: 100%;"
           ></el-date-picker>
         </el-form-item>
