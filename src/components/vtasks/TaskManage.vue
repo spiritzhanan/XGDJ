@@ -82,8 +82,8 @@
 
     <!--分页区域-->
     <el-pagination
-      :current-page="queryInfo.pagenum"
-      :page-size="queryInfo.pagesize"
+      :current-page="queryInfo.pageNum"
+      :page-size="queryInfo.pageSize"
       layout="total, prev, pager, next, jumper"
       :total="total"
     >
@@ -177,9 +177,9 @@ export default {
         college: "",
         vstate: "",
         //当前页码数
-        pagenum: 1,
+        pageNum: 1,
         //每页展示数
-        pagesize: 5
+        pageSize: 5
       },
       addTaskmanage: {
         volunteername: "",
@@ -199,26 +199,25 @@ export default {
   },
   methods: {
     async getTaskManage() {
-      const { data: res } = await this.$http.get("/Volunteer/findVoluByLike", {
+      const { data: res } = await this.$http.get("/Volunteer/findBySearch", {
         params: {
           volunteername: this.queryInfo.volunteername,
           college: this.queryInfo.college,
           vstate: this.queryInfo.vstate,
           publisher: this.queryInfo.publisher,
-          pageNum: this.queryInfo.pagenum,
-          pageSize: this.queryInfo.pagesize
+          pageNum: this.queryInfo.pageNum,
+          pageSize: this.queryInfo.pageSize
         }
       });
       if (res.code !== 200) {
         this.$message.info("获取数据失败");
       }
-      console.log(res);
       this.total = res.data.total;
       this.taskManage = res.data.list;
     },
     //监听 页码值 改变的事件
     handleCurrentChange(newPage) {
-      this.queryInfo.pagenum = newPage;
+      this.queryInfo.pageNum = newPage;
       this.getTaskManage();
     },
     //监听添加对话框的关闭事件
