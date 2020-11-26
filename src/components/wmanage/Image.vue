@@ -14,8 +14,10 @@
     <el-table :data="pictureuploads">
       <el-table-column label="图片">
         <template slot-scope="scope">
-          <el-image :src="scope.row.picturepath" alt="" />
-          {{ scope.row.picturepath }}
+          <el-image
+            :src="scope.row.picturepath"
+            style="width: 200px;height: 200px"
+          />
         </template>
       </el-table-column>
     </el-table>
