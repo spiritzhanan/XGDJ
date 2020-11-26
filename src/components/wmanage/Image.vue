@@ -7,18 +7,18 @@
       <el-breadcrumb-item>图片管理</el-breadcrumb-item>
     </el-breadcrumb>
     <el-button type="primary">新建文件夹</el-button>
-    <el-upload
-      action="http://39.99.142.199:8083/Pic/addPic"
-      list-type="picture-card"
-      :with-credentials="true"
-      :on-preview="handlePictureCardPreview"
-      :on-success="uploadSuccess3"
-      :on-remove="handleRemove"
-      :file-list="formData.img"
-    >
-      <i slot="default" class="el-icon-plus"></i>
-      <div slot="tip" class="uploadTip">注：建议尺寸：1200*420像素</div>
-    </el-upload>
+    <form>
+      <input type="file" @change="getFile($event)" />
+      <el-button type="success" @click="submitForm($event)">提交</el-button>
+    </form>
+    <el-table :data="pictureuploads">
+      <el-table-column label="图片">
+        <template slot-scope="scope">
+          <el-image :src="scope.row.picturepath" alt="" />
+          {{ scope.row.picturepath }}
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -26,36 +26,46 @@
 export default {
   data() {
     return {
-      fileList: [],
-      dialogImageUrl: "",
-      dialogVisible: false,
-      formData: {
-        img: [] // 这里的必须是一个数组，才能正确回显，并且对象中要有name，url，uid
-      }
+      file: "",
+      pictureuploads: []
     };
   },
+  mounted() {
+    this.getImg();
+  },
   methods: {
-    // 正文图片上传回显
-    uploadSuccess3(res, file) {
-      if (res.code === 200) {
-        this.formData.img.push({
-          name: res.data.pic,
-          url: res.data.picUrl,
-          uid: this.formData.img.length
-        });
-        console.log(this.formData.img);
-      } else {
-        this.$message.error(res.msg);
+    getFile(event) {
+      this.file = event.target.files[0];
+      console.log(this.file);
+    },
+    async submitForm(event) {
+      event.preventDefault();
+      let formData = new FormData();
+      formData.append("file", this.file);
+
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      };
+
+      const { data: res } = await this.$http.post(
+        "/picUpload",
+        formData,
+        config
+      );
+      if (res.code !== 200) {
+        this.$message.error("图片上传失败！");
       }
+      this.$message.success("图片上传成功！");
+      this.getImg();
     },
-    // 正文图片上传,删除操作
-    handleRemove(file, fileList) {
-      // file是点击删除的文件，fileList时删除后剩下的文件列表
-      this.formData.img = fileList;
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
+    async getImg() {
+      const { data: res } = await this.$http.get("/Pic/findPic");
+      if (res.code !== 200) {
+      }
+      this.pictureuploads = res.data.pictureuploads;
+      console.log(this.pictureuploads);
     }
   }
 };

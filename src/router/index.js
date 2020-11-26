@@ -94,12 +94,6 @@ const routes = [
         component: () => import("../components/wmanage/Menu")
       },
 
-      /*管理报表路由*/
-      {
-        path: "/visitors",
-        component: () => import("../components/mbvr/Visitors")
-      },
-
       /*系统管理路由*/
       {
         path: "/code",

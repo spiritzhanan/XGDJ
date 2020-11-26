@@ -9,7 +9,7 @@ import qs from "qs";
 Vue.config.productionTip = false;
 
 Vue.prototype.$qs = qs;
-axios.defaults.baseURL = "http://39.99.142.199:8083";
+axios.defaults.baseURL = "http://123.56.84.99:8083";
 axios.interceptors.request.use(config => {
   config.headers.token = window.sessionStorage.getItem("token");
   //必须Return

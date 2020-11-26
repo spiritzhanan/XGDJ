@@ -171,20 +171,6 @@
           </el-submenu>
           <el-submenu index="6">
             <template slot="title">
-              <i class="el-icon-s-cooperation"></i>
-              <span>管理报表</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="visitors"
-                ><template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span>访客明细</span>
-                </template></el-menu-item
-              >
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="7">
-            <template slot="title">
               <i class="el-icon-s-tools"></i>
               <span>系统管理</span>
             </template>
